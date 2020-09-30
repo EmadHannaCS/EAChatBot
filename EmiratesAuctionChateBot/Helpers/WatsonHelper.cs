@@ -2,11 +2,8 @@
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Watson.Assistant.v2;
 using IBM.Watson.Assistant.v2.Model;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
-using ViewModels;
 
 namespace Helpers
 {
@@ -23,26 +20,28 @@ namespace Helpers
 
         private static AssistantService assistant = new AssistantService("2020-09-29", authenticator);
 
+        private static DetailedResponse<SessionResponse> session;
 
 
-        public static Output Consume(string Text = "", string Intent = "Range", string Entity = "Max", string Value = "")
+        public static MessageResponse Consume(string Text = "")
         {
+            DetailedResponse<MessageResponse> messageResponse;
             assistant.SetServiceUrl(ApiUrl);
             assistant.DisableSslVerification(true);
 
-            var session = assistant.CreateSession(assistantId: AssistantId);
+            
 
-            var response = assistant.Message(AssistantId, session.Result.SessionId, new MessageInput()
+            if (session == null)
             {
-                Intents = new List<RuntimeIntent> { new RuntimeIntent { Intent = Intent } },
-                Entities = new List<RuntimeEntity> { new RuntimeEntity { Entity = Entity, Value = Value } }
-            ,
-                Text = Text
-            });
+                session = assistant.CreateSession(AssistantId);
+            }
 
-            Output output = JsonSerializer.Deserialize<Output>(response.Response);
+            messageResponse = assistant.Message(AssistantId, session.Result.SessionId, new MessageInput() { Text = Text });
 
-            return output;
+            MessageResponse watsonResponse = messageResponse.Result;
+
+
+            return watsonResponse;
 
         }
     }
