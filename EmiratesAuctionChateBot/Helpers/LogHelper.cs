@@ -2,7 +2,7 @@
 using System;
 using System.Reflection;
 
-namespace Helpers.WebClent
+namespace Helpers
 {
     public class LogHelper
     {

@@ -8,23 +8,23 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\a.thabet\\.nuget\\packages\\": {},
+    "C:\\Users\\e.hanna\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj",
+      "projectUniqueName": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj",
       "projectName": "ViewModels",
-      "projectPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj",
-      "packagesPath": "C:\\Users\\a.thabet\\.nuget\\packages\\",
-      "outputPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\obj\\",
+      "projectPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj",
+      "packagesPath": "C:\\Users\\e.hanna\\.nuget\\packages\\",
+      "outputPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\a.thabet\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\e.hanna\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -62,7 +62,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
       }
     }
   }

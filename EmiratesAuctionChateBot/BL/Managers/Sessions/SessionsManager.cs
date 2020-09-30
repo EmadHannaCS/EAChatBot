@@ -2,6 +2,7 @@
 using DAL.DB;
 using DAL.Repository;
 using DAL.UnitOfWork;
+using Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace BL.Managers
             if (_sessions == null)
                 _sessions = new List<UserSession>();
         }
-        public string GetSession(string phone)
+        public UserSession GetSession(string phone)
         {
             if (string.IsNullOrWhiteSpace(phone))
                 return null;
@@ -44,7 +45,7 @@ namespace BL.Managers
             {
                 //LogHelper.LogException(ex);
             }
-            return session?.LastSessionId;
+            return session;
         }
 
         public void SetSession(string phone, string sessionId)
@@ -60,7 +61,8 @@ namespace BL.Managers
                         {
                             CreatedAt = DateTime.Now,
                             LastSessionId = sessionId,
-                            UserPhone = phone
+                            UserPhone = phone,
+                            LatestResponseStep = 0
                         };
                         _repo.Add(session);
                     }
@@ -68,6 +70,7 @@ namespace BL.Managers
                     {
                         session.ModifiedAt = DateTime.Now;
                         session.LastSessionId = sessionId;
+                        session.LatestResponseStep = 0;
                     }
                     _uow.Commit();
 
@@ -78,15 +81,36 @@ namespace BL.Managers
                     }
                     else
                     {
-                        staticSession.ModifiedAt = DateTime.Now;
-                        staticSession.LastSessionId = sessionId;
+                        staticSession = session;
                     }
                 }
                 catch (Exception ex)
                 {
-                   // LogHelper.LogException(ex);
+                     LogHelper.LogException(ex);
                 }
             }
+        }
+
+        public void UpdateSessionStep(string phone)
+        {
+            var session = _repo.FirstOrDefault(c => c.UserPhone == phone);
+            if (session != null)
+            {
+                session.LatestResponseStep = session.LatestResponseStep + 1;
+                _uow.Commit();
+
+                var staticSession = _sessions.FirstOrDefault(c => c.UserPhone == phone);
+                if (staticSession == null)
+                {
+                    _sessions.Add(session);
+                }
+                else
+                {
+                    staticSession = session;
+                }
+
+            }
+
         }
     }
 }

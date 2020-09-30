@@ -38,7 +38,6 @@ namespace EmiratesAuctionChateBot.Helpers
             assistant.SetServiceUrl(ApiUrl);
             assistant.DisableSslVerification(true);
 
-
             var sessionId = string.Empty;
             if (isStart)
             {
@@ -50,7 +49,7 @@ namespace EmiratesAuctionChateBot.Helpers
             {
                 session = assistant.CreateSession(AssistantId);
 
-                sessionId = _sessionsManager.GetSession(phone);
+                sessionId = _sessionsManager.GetSession(phone)?.LastSessionId;
                 if (string.IsNullOrWhiteSpace(sessionId))
                 {
                     _sessionsManager.SetSession(phone, session.Result.SessionId);
