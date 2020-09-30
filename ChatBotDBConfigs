@@ -1,0 +1,1 @@
+Scaffold-DbContext "Server=.;Database=ChatBotDB;User ID=sa;Password=123456" Microsoft.EntityFrameworkCore.SqlServer -OutputDir DB -Force

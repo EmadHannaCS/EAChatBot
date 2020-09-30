@@ -2,9 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL.DB;
+using DAL.Managers;
+using DAL.UnitOfWork;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +29,12 @@ namespace EmiratesAuctionChateBot
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<ChatBotDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ChatBotDBEntities")));
+            services.AddTransient<DbContext, ChatBotDBContext>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<ISessionsManager, SessionsManager>();
+
             services.AddSwaggerGen();
 
         }
