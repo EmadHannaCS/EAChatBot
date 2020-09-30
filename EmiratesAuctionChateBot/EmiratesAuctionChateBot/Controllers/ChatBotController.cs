@@ -4,11 +4,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Helpers;
+using EmiratesAuctionChateBot.Helpers;
 using Helpers.WebClent;
-using Microsoft.AspNetCore.Http;
+using IBM.Watson.Assistant.v2.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using ViewModels;
 
 namespace EmiratesAuctionChateBot.Controllers
@@ -17,8 +16,13 @@ namespace EmiratesAuctionChateBot.Controllers
     [Route("[controller]")]
     public class ChatBotController : ControllerBase
     {
+
         private const string APIBaseUrl = "https://api.eas.ae/v2/";
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private AuctionDetailsVM auctionDetails;
+        private MessageResponse watsonResult;
+        private string UserPhone = string.Empty;
+        private int Step = 0;
+        private readonly IWatsonHelper _watsonHelper;
         private Dictionary<int, string> Emirates = new Dictionary<int, string>(new List<KeyValuePair<int, string>>()
         {
             new KeyValuePair<int, string>(1,"Abu Dhabi"),
@@ -31,28 +35,31 @@ namespace EmiratesAuctionChateBot.Controllers
 
         });
 
-        //public ChatBotController(IHttpContextAccessor httpContextAccessor)
-        //{
-        //    this._httpContextAccessor = httpContextAccessor;
-        //}
+        private KeyValuePair<int, string> CurrentStep = new KeyValuePair<int, string>();
 
-        //To start chat call this api
+
+
+
+        public ChatBotController(IWatsonHelper watsonHelper)
+        {
+            _watsonHelper = watsonHelper;
+        }
+
         [HttpGet("StartChat")]
         public Task ChatBot(string authToken, string AuctionId, string phone)
         {
-            //string cookieValueFromContext = _httpContextAccessor.HttpContext.Request.Cookies["ChatId"];
 
-            //Response.Cookies.Append("ChatId", authToken);
-
+            UserPhone = phone;
 
 
             string APIUrl = $"checkout/cars/getauctiondetails?auctionid={AuctionId}&authtoken={authToken}&source = androidphone";
 
             var result = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, APIUrl);
 
-            AuctionDetailsVM auctionDetails = JsonSerializer.Deserialize<AuctionDetailsVM>(result.Content.ReadAsStringAsync().Result);
+            auctionDetails = JsonSerializer.Deserialize<AuctionDetailsVM>(result.Content.ReadAsStringAsync().Result);
 
-            var watsonResult = WatsonHelper.Consume("hello");
+
+            watsonResult = _watsonHelper.Consume(phone, "hello", true);
 
             string message = watsonResult.Output.Generic[0].Text.Replace("SOPCode", auctionDetails.SOPNumber);
             string carOption = "{0} lot# {1} with the price of {2} {3} ";
@@ -73,28 +80,67 @@ namespace EmiratesAuctionChateBot.Controllers
                 if (car.BidderHyazaOrigin == string.Empty && car.RequireSelectHyaza == 1)
                 {
                     message = watsonResult.Output.Generic[1].Text.Replace("CarNum", car.makeEn + " " + car.modelEn).Replace("number", car.AuctionInfo.lot.ToString()).
-                        Replace("currency", car.AuctionInfo.currencyEn).Replace("price", car.AuctionInfo.currentPrice.ToString());
+                         Replace("currency", car.AuctionInfo.currencyEn).Replace("price", car.AuctionInfo.currentPrice.ToString());
 
                     message += Environment.NewLine + "1- Abu Dhabi" + Environment.NewLine + "2- Dubai" + Environment.NewLine + "3- Sharja" + Environment.NewLine + "4- Ras Al Khaimah" +
                         Environment.NewLine + "5- Fujairah" + Environment.NewLine + "6- Ajman" + Environment.NewLine + "7- Umm Al Quwian";
-                    WebHookHelper.sendTXTMsg(phone, message);
+                    WebHookHelper.sendTXTMsg(UserPhone, message);
 
-                    watsonResult = WatsonHelper.Consume("5");
-                    message = watsonResult.Output.Generic[0].Text;
+                }
+
+
+            }
+
+            return null;
+        }
+
+
+        [HttpPost("ReceiveMessages")]
+        public Task ChatBot(object data)
+        {
+            WebhookResponse Message = JsonSerializer.Deserialize<WebhookResponse>(data.ToString());
+
+
+            switch (CurrentStep.Key)
+            {
+                case 1:
+                    {
+
+                        break;
+                    }
+
+                default:
+                    {
+                        break;
+                    }
+
+            }
+
+            for (int i = 0; i < auctionDetails.Cars.Count; i++)
+            {
+                var car = auctionDetails.Cars[i];
+
+                if (car.BidderHyazaOrigin == string.Empty && car.RequireSelectHyaza == 1)
+                {
+                    watsonResult = _watsonHelper.Consume("5");
+
+                    CurrentStep = new KeyValuePair<int, string>(1, "choose emirate");
+
+                    string message = watsonResult.Output.Generic[0].Text;
                     if (message.Contains("please select from choices "))
                     {
-                        WebHookHelper.sendTXTMsg(phone, message);
+                        WebHookHelper.sendTXTMsg(UserPhone, message);
                     }
                     else
                     {
                         message = message.Replace("number", "5").Replace("country", Emirates.GetValueOrDefault(5));
-                        WebHookHelper.sendTXTMsg(phone, message);
+                        WebHookHelper.sendTXTMsg(UserPhone, message);
 
-                        watsonResult = WatsonHelper.Consume("nothing");
+                        watsonResult = _watsonHelper.Consume("nothing");
                         message = watsonResult.Output.Generic[0].Text;
                         if (message.Contains("please type yes or no "))
                         {
-                            WebHookHelper.sendTXTMsg(phone, message);
+                            WebHookHelper.sendTXTMsg(UserPhone, message);
                         }
                         else if (watsonResult.Output.Entities[0].Value.Contains("no"))
                         {
@@ -103,7 +149,7 @@ namespace EmiratesAuctionChateBot.Controllers
 
                             message += Environment.NewLine + "1- Abu Dhabi" + Environment.NewLine + "2- Dubai" + Environment.NewLine + "3- Sharja" + Environment.NewLine + "4- Ras Al Khaimah" +
                                 Environment.NewLine + "5- Fujairah" + Environment.NewLine + "6- Ajman" + Environment.NewLine + "7- Umm Al Quwian";
-                            WebHookHelper.sendTXTMsg(phone, message);
+                            WebHookHelper.sendTXTMsg(UserPhone, message);
                         }
 
                     }
@@ -114,18 +160,7 @@ namespace EmiratesAuctionChateBot.Controllers
 
 
             }
-
-
-
-
             return null;
         }
-
-
-        //[HttpPost("ReceiveMessages")]
-        //public Task ChatBot(dynamic data)
-        //{
-
-        //}
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAL.Managers
+namespace BL.Managers
 {
     public interface ISessionsManager
     {

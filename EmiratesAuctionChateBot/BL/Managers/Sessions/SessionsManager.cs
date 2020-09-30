@@ -2,14 +2,11 @@
 using DAL.DB;
 using DAL.Repository;
 using DAL.UnitOfWork;
-using Helpers.WebClent;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace DAL.Managers
+namespace BL.Managers
 {
     public class SessionsManager : ISessionsManager
     {
@@ -45,7 +42,7 @@ namespace DAL.Managers
             }
             catch (Exception ex)
             {
-                LogHelper.LogException(ex);
+                //LogHelper.LogException(ex);
             }
             return session?.LastSessionId;
         }
@@ -87,7 +84,7 @@ namespace DAL.Managers
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.LogException(ex);
+                   // LogHelper.LogException(ex);
                 }
             }
         }
