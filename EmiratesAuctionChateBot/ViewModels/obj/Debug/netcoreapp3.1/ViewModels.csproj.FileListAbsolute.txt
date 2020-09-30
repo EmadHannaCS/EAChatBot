@@ -6,7 +6,6 @@ E:\chatBot\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netcoreapp3.1\
 E:\chatBot\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netcoreapp3.1\ViewModels.csproj.CoreCompileInputs.cache
 E:\chatBot\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netcoreapp3.1\ViewModels.dll
 E:\chatBot\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netcoreapp3.1\ViewModels.pdb
-E:\chatBot\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netcoreapp3.1\ViewModels.csprojAssemblyReference.cache
 D:\Work\EAuction\Git\EAChatBot\EmiratesAuctionChateBot\ViewModels\bin\Debug\netcoreapp3.1\ViewModels.deps.json
 D:\Work\EAuction\Git\EAChatBot\EmiratesAuctionChateBot\ViewModels\bin\Debug\netcoreapp3.1\ViewModels.dll
 D:\Work\EAuction\Git\EAChatBot\EmiratesAuctionChateBot\ViewModels\bin\Debug\netcoreapp3.1\ViewModels.pdb
@@ -16,3 +15,4 @@ D:\Work\EAuction\Git\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netc
 D:\Work\EAuction\Git\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netcoreapp3.1\ViewModels.dll
 D:\Work\EAuction\Git\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netcoreapp3.1\ViewModels.pdb
 D:\Work\EAuction\Git\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netcoreapp3.1\ViewModels.csprojAssemblyReference.cache
+E:\chatBot\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netcoreapp3.1\ViewModels.csprojAssemblyReference.cache

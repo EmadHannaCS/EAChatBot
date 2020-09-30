@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\BL\\BL.csproj": {}
+    "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\BL\\BL.csproj": {}
   },
   "projects": {
-    "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\BL\\BL.csproj": {
+    "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\BL\\BL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\BL\\BL.csproj",
+        "projectUniqueName": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\BL\\BL.csproj",
         "projectName": "BL",
-        "projectPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\BL\\BL.csproj",
-        "packagesPath": "C:\\Users\\e.hanna\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\BL\\obj\\",
+        "projectPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\BL\\BL.csproj",
+        "packagesPath": "C:\\Users\\a.thabet\\.nuget\\packages\\",
+        "outputPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\BL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\e.hanna\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\a.thabet\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -30,11 +30,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj": {
-                "projectPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj"
+              "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj": {
+                "projectPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj"
               },
-              "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj": {
-                "projectPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj"
+              "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj": {
+                "projectPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj"
               }
             }
           }
@@ -62,24 +62,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj": {
+    "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj",
+        "projectUniqueName": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj",
         "projectName": "DAL",
-        "projectPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj",
-        "packagesPath": "C:\\Users\\e.hanna\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\obj\\",
+        "projectPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj",
+        "packagesPath": "C:\\Users\\a.thabet\\.nuget\\packages\\",
+        "outputPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\e.hanna\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\a.thabet\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -137,24 +137,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj": {
+    "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj",
+        "projectUniqueName": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj",
         "projectName": "Helpers",
-        "projectPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj",
-        "packagesPath": "C:\\Users\\e.hanna\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\obj\\",
+        "projectPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj",
+        "packagesPath": "C:\\Users\\a.thabet\\.nuget\\packages\\",
+        "outputPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\e.hanna\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\a.thabet\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -167,11 +167,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj": {
-                "projectPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj"
+              "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj": {
+                "projectPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj"
               },
-              "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj": {
-                "projectPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj"
+              "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj": {
+                "projectPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj"
               }
             }
           }
@@ -209,24 +209,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj": {
+    "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj",
+        "projectUniqueName": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj",
         "projectName": "ViewModels",
-        "projectPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj",
-        "packagesPath": "C:\\Users\\e.hanna\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\obj\\",
+        "projectPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\ViewModels.csproj",
+        "packagesPath": "C:\\Users\\a.thabet\\.nuget\\packages\\",
+        "outputPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\ViewModels\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\e.hanna\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\a.thabet\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -264,7 +264,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -10,6 +10,6 @@ namespace BL.Managers
         public UserSession GetSession(string phone);
         public void SetSession(string phone, string sessionId);
 
-        public void UpdateSessionStep(string phone);
+        public void UpdateSessionStep(string phone, int? step = null);
     }
 }

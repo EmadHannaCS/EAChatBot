@@ -86,17 +86,17 @@ namespace BL.Managers
                 }
                 catch (Exception ex)
                 {
-                     LogHelper.LogException(ex);
+                    LogHelper.LogException(ex);
                 }
             }
         }
 
-        public void UpdateSessionStep(string phone)
+        public void UpdateSessionStep(string phone, int? step = null)
         {
             var session = _repo.FirstOrDefault(c => c.UserPhone == phone);
             if (session != null)
             {
-                session.LatestResponseStep = session.LatestResponseStep + 1;
+                session.LatestResponseStep = step ?? session.LatestResponseStep + 1;
                 _uow.Commit();
 
                 var staticSession = _sessions.FirstOrDefault(c => c.UserPhone == phone);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using BL.Managers;
 using EmiratesAuctionChateBot.Helpers;
 using Helpers;
 using IBM.Watson.Assistant.v2.Model;
@@ -18,6 +19,8 @@ namespace EmiratesAuctionChateBot.Controllers
     {
 
         private const string APIBaseUrl = "https://api.eas.ae/v2/";
+        private readonly ISessionsManager _sessionsManager;
+
         private AuctionDetailsVM auctionDetails;
         private MessageResponse watsonResult;
         private string UserPhone = string.Empty;
@@ -25,6 +28,7 @@ namespace EmiratesAuctionChateBot.Controllers
         private int Step = 1;
         private int CarNum = 0;
         private readonly IWatsonHelper _watsonHelper;
+        private static List<CarVM> CarsList = new List<CarVM>();
         private Dictionary<int, string> Emirates = new Dictionary<int, string>(new List<KeyValuePair<int, string>>()
         {
             new KeyValuePair<int, string>(1,"Abu Dhabi"),
@@ -42,8 +46,9 @@ namespace EmiratesAuctionChateBot.Controllers
         private Dictionary<string, string> ChoosedEmirate = new Dictionary<string, string>();
 
 
-        public ChatBotController(IWatsonHelper watsonHelper)
+        public ChatBotController(IWatsonHelper watsonHelper, ISessionsManager sessionsManager)
         {
+            _sessionsManager = sessionsManager;
             _watsonHelper = watsonHelper;
         }
 
@@ -75,6 +80,8 @@ namespace EmiratesAuctionChateBot.Controllers
 
             WebHookHelper.sendTXTMsg(phone, message);
 
+            CarsList.AddRange(auctionDetails.Cars);
+
             for (int i = 0; i < auctionDetails.Cars.Count; i++)
             {
                 var car = auctionDetails.Cars[i];
@@ -86,13 +93,19 @@ namespace EmiratesAuctionChateBot.Controllers
 
                     message += Environment.NewLine + "1- Abu Dhabi" + Environment.NewLine + "2- Dubai" + Environment.NewLine + "3- Sharja" + Environment.NewLine + "4- Ras Al Khaimah" +
                         Environment.NewLine + "5- Fujairah" + Environment.NewLine + "6- Ajman" + Environment.NewLine + "7- Umm Al Quwian";
-                    WebHookHelper.sendTXTMsg(UserPhone, message);
-                    CurrentStep = new KeyValuePair<string, int>(UserPhone, Step);
 
+                    CarsList.Remove(car);
+                }
+                else if (car.DeliveryStatus != 1 && car.CheckOutInfo.HasSourceLocation == 1 && car.CheckOutInfo.AllowDeliveryRequest == 1)
+                {
+                    _sessionsManager.UpdateSessionStep(UserPhone, 2);
+                    CarsList.Remove(car);
                 }
 
-
+                break;
             }
+            WebHookHelper.sendTXTMsg(UserPhone, message);
+            _sessionsManager.UpdateSessionStep(UserPhone);
 
             return null;
         }
@@ -101,10 +114,10 @@ namespace EmiratesAuctionChateBot.Controllers
         [HttpPost("ReceiveMessages")]
         public Task ChatBot(object data)
         {
+
             WebhookResponse webHookMessage = JsonSerializer.Deserialize<WebhookResponse>(data.ToString());
-
-
-            switch (CurrentStep.Value)
+            var userStep = _sessionsManager.GetSession(webHookMessage.from)?.LatestResponseStep;
+            switch (userStep)
             {
                 case 1:
                     {
@@ -117,10 +130,9 @@ namespace EmiratesAuctionChateBot.Controllers
                                 watsonResult = _watsonHelper.Consume(webHookMessage.text);
 
                                 string message = watsonResult.Output.Generic[0].Text;
-                                if (message.Contains("please select from choices "))
+                                if (message.Contains("please select from choices"))
                                 {
                                     WebHookHelper.sendTXTMsg(UserPhone, message);
-                                    CurrentStep = new KeyValuePair<string, int>(UserPhone, Step);
                                 }
                                 else
                                 {
@@ -128,8 +140,7 @@ namespace EmiratesAuctionChateBot.Controllers
                                     ChoosedEmirate[UserPhone] = SelectedEmirate;
                                     message = message.Replace("{number}", webHookMessage.text).Replace("{country}", Emirates.GetValueOrDefault(int.Parse(webHookMessage.text)));
                                     WebHookHelper.sendTXTMsg(UserPhone, message);
-                                    CurrentStep = new KeyValuePair<string, int>(UserPhone, Step++);
-
+                                    _sessionsManager.UpdateSessionStep(webHookMessage.from);
                                 }
 
                             }
@@ -142,12 +153,11 @@ namespace EmiratesAuctionChateBot.Controllers
                 case 2:
                     {
                         var car = auctionDetails.Cars[CarNum];
-                        watsonResult = _watsonHelper.Consume("nothing");
+                        watsonResult = _watsonHelper.Consume(webHookMessage.text);
                         var message = watsonResult.Output.Generic[0].Text;
-                        if (message.Contains("please type yes or no "))
+                        if (message.Contains("please type yes or no"))
                         {
                             WebHookHelper.sendTXTMsg(UserPhone, message);
-                            CurrentStep = new KeyValuePair<string, int>(UserPhone, Step);
                         }
                         else if (watsonResult.Output.Entities[0].Value.Contains("no"))
                         {
@@ -157,15 +167,20 @@ namespace EmiratesAuctionChateBot.Controllers
                             message += Environment.NewLine + "1- Abu Dhabi" + Environment.NewLine + "2- Dubai" + Environment.NewLine + "3- Sharja" + Environment.NewLine + "4- Ras Al Khaimah" +
                                 Environment.NewLine + "5- Fujairah" + Environment.NewLine + "6- Ajman" + Environment.NewLine + "7- Umm Al Quwian";
                             WebHookHelper.sendTXTMsg(UserPhone, message);
-                            CurrentStep = new KeyValuePair<string, int>(UserPhone, 1);
+                            _sessionsManager.UpdateSessionStep(webHookMessage.from, 1);
                         }
                         else if (watsonResult.Output.Entities[0].Value.Contains("yes"))
                         {
                             SelectedEmirate = ChoosedEmirate[UserPhone];
                             message = watsonResult.Output.Generic[0].Text.Replace("{country}", Emirates.GetValueOrDefault(int.Parse(SelectedEmirate))).Replace("{lot}", car.AuctionInfo.lot.ToString());
                             WebHookHelper.sendTXTMsg(UserPhone, message);
-                            CurrentStep = new KeyValuePair<string, int>(UserPhone, Step++);
+                            _sessionsManager.UpdateSessionStep(webHookMessage.from);
                         }
+                        break;
+                    }
+
+                case 3:
+                    {
                         break;
                     }
 
