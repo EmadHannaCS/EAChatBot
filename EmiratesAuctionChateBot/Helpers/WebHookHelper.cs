@@ -1,10 +1,10 @@
-﻿using Helpers.WebClent;
+﻿using Helpers;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 
-namespace ViewModels
+namespace Helpers
 {
     public class WebHookHelper
     {

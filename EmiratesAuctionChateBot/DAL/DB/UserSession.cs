@@ -8,6 +8,7 @@ namespace DAL.DB
         public int Id { get; set; }
         public string UserPhone { get; set; }
         public string LastSessionId { get; set; }
+        public int LatestResponseStep { get; set; }
         public DateTime? ModifiedAt { get; set; }
         public DateTime CreatedAt { get; set; }
     }

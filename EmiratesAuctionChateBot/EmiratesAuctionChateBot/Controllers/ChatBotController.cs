@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using EmiratesAuctionChateBot.Helpers;
-using Helpers.WebClent;
+using Helpers;
 using IBM.Watson.Assistant.v2.Model;
 using Microsoft.AspNetCore.Mvc;
 using ViewModels;

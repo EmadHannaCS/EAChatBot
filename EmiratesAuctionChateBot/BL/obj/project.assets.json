@@ -3407,7 +3407,7 @@
       ]
     },
     "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "sha512": "X7IdhILzr4ROXd8mI1BUCQMSHSQwelUlBjF1JyTKCjXaOGn2fB4EKBxQbCK2VjO3WaWIdlXZL3W6TiIVnrhX4g==",
+      "sha512": "/p8IQT2brFMDa7BHMH71LV+w5Tb3OxoLHxhn6+MGqN5xeqhM2HRHmj+7xQGJnaRn73d7ZTvp6yRCFMvolws4wA==",
       "type": "package",
       "path": "runtime.osx.10.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "files": [
@@ -3433,7 +3433,7 @@
       ]
     },
     "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "sha512": "ytoewC6wGorL7KoCAvRfsgoJPJbNq+64k2SqW6JcOAebWsFUvCCYgfzQMrnpvPiEl4OrblUlhF2ji+Q1+SVLrQ==",
+      "sha512": "JGc0pAWRE8lB4Ucygk2pYSKbUPLlAIq6Bczf5/WF2D/VKJEPtYlVUMxk8fbl1zRfTWzSHi+VcFZlaPlWiNxeKg==",
       "type": "package",
       "path": "runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "files": [
@@ -3783,7 +3783,7 @@
       ]
     },
     "System.Collections.Specialized/4.3.0": {
-      "sha512": "Epx8PoVZR0iuOnJJDzp7pWvdfMMOAvpUo95pC4ScH2mJuXkKA2Y4aR3cG9qt2klHgSons1WFh4kcGW7cSXvrxg==",
+      "sha512": "NoPBj0ykejqAWW4p4gGtrrL+3c84ZLSvGnHgq422ew1Rj4WKj1FA8/BCybqC111EtgcqUl6ZJNFYYS22HLgbjA==",
       "type": "package",
       "path": "system.collections.specialized/4.3.0",
       "files": [
@@ -4038,7 +4038,7 @@
       ]
     },
     "System.ComponentModel.Primitives/4.3.0": {
-      "sha512": "j8GUkCpM8V4d4vhLIIoBLGey2Z5bCkMVNjEZseyAlm4n5arcsJOeI3zkUP+zvZgzsbLTYh4lYeP/ZD/gdIAPrw==",
+      "sha512": "KMVuoQ+8bMQ/Z59M3s64num5AD74X5YSqVc7ibwGkPTfmmkl2W8VuSxLRJtpw4KzQrSKUgR0BLbF0adPfcTSGQ==",
       "type": "package",
       "path": "system.componentmodel.primitives/4.3.0",
       "files": [
@@ -8023,23 +8023,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\a.thabet\\.nuget\\packages\\": {},
+    "C:\\Users\\e.hanna\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\BL\\BL.csproj",
+      "projectUniqueName": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\BL\\BL.csproj",
       "projectName": "BL",
-      "projectPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\BL\\BL.csproj",
-      "packagesPath": "C:\\Users\\a.thabet\\.nuget\\packages\\",
-      "outputPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\BL\\obj\\",
+      "projectPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\BL\\BL.csproj",
+      "packagesPath": "C:\\Users\\e.hanna\\.nuget\\packages\\",
+      "outputPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\BL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\a.thabet\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\e.hanna\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8052,11 +8052,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj": {
-              "projectPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj"
+            "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj": {
+              "projectPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\DAL\\DAL.csproj"
             },
-            "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj": {
-              "projectPath": "E:\\chatBot\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj"
+            "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj": {
+              "projectPath": "D:\\Work\\EAuction\\Git\\EAChatBot\\EmiratesAuctionChateBot\\Helpers\\Helpers.csproj"
             }
           }
         }
@@ -8084,7 +8084,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
       }
     }
   }
