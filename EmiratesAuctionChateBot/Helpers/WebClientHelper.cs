@@ -42,6 +42,18 @@ namespace Helpers
             }
 
         }
+
+        public static string HandlePhoneFormat(string phone)
+        {
+            if (!string.IsNullOrWhiteSpace(phone))
+            {
+                if (phone.StartsWith("+"))
+                    phone = phone.Substring(1);
+                if (phone.StartsWith("00"))
+                    phone = phone.Substring(2);
+            }
+            return phone;
+        }
     }
 
 
