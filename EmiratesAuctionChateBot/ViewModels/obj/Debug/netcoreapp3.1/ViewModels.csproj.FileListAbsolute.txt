@@ -15,4 +15,3 @@ D:\Work\EAuction\Git\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netc
 D:\Work\EAuction\Git\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netcoreapp3.1\ViewModels.dll
 D:\Work\EAuction\Git\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netcoreapp3.1\ViewModels.pdb
 D:\Work\EAuction\Git\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netcoreapp3.1\ViewModels.csprojAssemblyReference.cache
-E:\chatBot\EAChatBot\EmiratesAuctionChateBot\ViewModels\obj\Debug\netcoreapp3.1\ViewModels.csprojAssemblyReference.cache

@@ -120,7 +120,10 @@ namespace EmiratesAuctionChateBot.Controllers
             var webHookMessage = JsonSerializer.Deserialize<WebhookResponse>(this.HttpContext.Request.Form["data"].ToString());
 
             var senderPhone = _config.GetValue<string>("SenderPhone");
-            //WebhookResponse webHookMessage = JsonSerializer.Deserialize<WebhookResponse>(data.ToString());
+            if (senderPhone == webHookMessage.from)
+            {
+                return null;
+            }
             var userStep = _sessionsManager.GetSession(webHookMessage.from)?.LatestResponseStep;
             switch (userStep)
             {
@@ -245,6 +248,7 @@ namespace EmiratesAuctionChateBot.Controllers
                             watsonResult = _watsonHelper.Consume(webHookMessage.from);
                         }
                         WebHookHelper.sendTXTMsg(webHookMessage.from, message);
+
 
                         break;
                     }
