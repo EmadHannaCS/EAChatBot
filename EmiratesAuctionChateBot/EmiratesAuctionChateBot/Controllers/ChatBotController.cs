@@ -86,7 +86,7 @@ namespace EmiratesAuctionChateBot.Controllers
             for (int i = 0; i < auctionDetails.Cars.Count; i++)
             {
                 var car = auctionDetails.Cars[i];
-
+                CarNum = i;
                 if (car.BidderHyazaOrigin == string.Empty && car.RequireSelectHyaza == 1)
                 {
                     message = watsonResult.Output.Generic[1].Text.Replace("{CarNum}", car.makeEn + " " + car.modelEn).Replace("{number}", car.AuctionInfo.lot.ToString()).
@@ -129,32 +129,30 @@ namespace EmiratesAuctionChateBot.Controllers
             {
                 case 1:
                     {
-                        for (int i = 0; i < auctionDetails.Cars.Count; i++)
+
+                        var car = auctionDetails.Cars[CarNum];
+                        if (car.BidderHyazaOrigin == string.Empty && car.RequireSelectHyaza == 1)
                         {
-                            var car = auctionDetails.Cars[i];
-                            CarNum = i;
-                            if (car.BidderHyazaOrigin == string.Empty && car.RequireSelectHyaza == 1)
+                            watsonResult = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text);
+
+                            string message = watsonResult.Output.Generic[0].Text;
+                            if (message.Contains("please select from choices"))
                             {
-                                watsonResult = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text);
-
-                                string message = watsonResult.Output.Generic[0].Text;
-                                if (message.Contains("please select from choices"))
-                                {
-                                    WebHookHelper.sendTXTMsg(UserPhone, message);
-                                }
-                                else
-                                {
-                                    SelectedEmirate = webHookMessage.text;
-                                    ChoosedEmirate[UserPhone] = SelectedEmirate;
-                                    message = message.Replace("{number}", webHookMessage.text).Replace("{country}", Emirates.GetValueOrDefault(int.Parse(webHookMessage.text)));
-                                    WebHookHelper.sendTXTMsg(UserPhone, message);
-                                    _sessionsManager.UpdateSessionStep(webHookMessage.from);
-                                }
-
+                                WebHookHelper.sendTXTMsg(UserPhone, message);
+                            }
+                            else
+                            {
+                                SelectedEmirate = webHookMessage.text;
+                                ChoosedEmirate[UserPhone] = SelectedEmirate;
+                                message = message.Replace("{number}", webHookMessage.text).Replace("{country}", Emirates.GetValueOrDefault(int.Parse(webHookMessage.text)));
+                                WebHookHelper.sendTXTMsg(UserPhone, message);
+                                _sessionsManager.UpdateSessionStep(webHookMessage.from);
                             }
 
-
                         }
+
+
+
                         break;
                     }
 
