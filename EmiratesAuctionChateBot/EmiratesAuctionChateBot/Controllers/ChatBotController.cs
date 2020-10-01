@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
@@ -9,6 +10,7 @@ using EmiratesAuctionChateBot.Helpers;
 using Helpers;
 using IBM.Watson.Assistant.v2.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using ViewModels;
 
 namespace EmiratesAuctionChateBot.Controllers
@@ -25,10 +27,10 @@ namespace EmiratesAuctionChateBot.Controllers
         private MessageResponse watsonResult;
         private string UserPhone = string.Empty;
         private string SelectedEmirate = string.Empty;
-        private int Step = 1;
         private int CarNum = 0;
         private readonly IWatsonHelper _watsonHelper;
-        private static List<CarVM> CarsList = new List<CarVM>();
+        private readonly IConfiguration _config;
+        private Dictionary<string, List<CarVM>> UserCars = new Dictionary<string, List<CarVM>>();
         private Dictionary<int, string> Emirates = new Dictionary<int, string>(new List<KeyValuePair<int, string>>()
         {
             new KeyValuePair<int, string>(1,"Abu Dhabi"),
@@ -41,15 +43,15 @@ namespace EmiratesAuctionChateBot.Controllers
 
         });
 
-        private KeyValuePair<string, int> CurrentStep = new KeyValuePair<string, int>();
 
         private Dictionary<string, string> ChoosedEmirate = new Dictionary<string, string>();
 
 
-        public ChatBotController(IWatsonHelper watsonHelper, ISessionsManager sessionsManager)
+        public ChatBotController(IWatsonHelper watsonHelper, ISessionsManager sessionsManager, IConfiguration config)
         {
             _sessionsManager = sessionsManager;
             _watsonHelper = watsonHelper;
+            _config = config;
         }
 
         [HttpGet("StartChat")]
@@ -80,8 +82,7 @@ namespace EmiratesAuctionChateBot.Controllers
 
             WebHookHelper.sendTXTMsg(phone, message);
 
-            CarsList.AddRange(auctionDetails.Cars);
-
+            UserCars[UserPhone] = auctionDetails.Cars;
             for (int i = 0; i < auctionDetails.Cars.Count; i++)
             {
                 var car = auctionDetails.Cars[i];
@@ -94,12 +95,12 @@ namespace EmiratesAuctionChateBot.Controllers
                     message += Environment.NewLine + "1- Abu Dhabi" + Environment.NewLine + "2- Dubai" + Environment.NewLine + "3- Sharja" + Environment.NewLine + "4- Ras Al Khaimah" +
                         Environment.NewLine + "5- Fujairah" + Environment.NewLine + "6- Ajman" + Environment.NewLine + "7- Umm Al Quwian";
 
-                    CarsList.Remove(car);
+                    UserCars[UserPhone].Remove(car);
                 }
                 else if (car.DeliveryStatus != 1 && car.CheckOutInfo.HasSourceLocation == 1 && car.CheckOutInfo.AllowDeliveryRequest == 1)
                 {
                     _sessionsManager.UpdateSessionStep(UserPhone, 2);
-                    CarsList.Remove(car);
+                    UserCars[UserPhone].Remove(car);
                 }
 
                 break;
@@ -114,7 +115,7 @@ namespace EmiratesAuctionChateBot.Controllers
         [HttpPost("ReceiveMessages")]
         public Task ChatBot(object data)
         {
-
+            var senderPhone = _config.GetValue<string>("SenderPhone");
             WebhookResponse webHookMessage = JsonSerializer.Deserialize<WebhookResponse>(data.ToString());
             var userStep = _sessionsManager.GetSession(webHookMessage.from)?.LatestResponseStep;
             switch (userStep)
@@ -127,7 +128,7 @@ namespace EmiratesAuctionChateBot.Controllers
                             CarNum = i;
                             if (car.BidderHyazaOrigin == string.Empty && car.RequireSelectHyaza == 1)
                             {
-                                watsonResult = _watsonHelper.Consume(webHookMessage.text);
+                                watsonResult = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text);
 
                                 string message = watsonResult.Output.Generic[0].Text;
                                 if (message.Contains("please select from choices"))
@@ -153,7 +154,7 @@ namespace EmiratesAuctionChateBot.Controllers
                 case 2:
                     {
                         var car = auctionDetails.Cars[CarNum];
-                        watsonResult = _watsonHelper.Consume(webHookMessage.text);
+                        watsonResult = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text);
                         var message = watsonResult.Output.Generic[0].Text;
                         if (message.Contains("please type yes or no"))
                         {
@@ -181,8 +182,70 @@ namespace EmiratesAuctionChateBot.Controllers
 
                 case 3:
                     {
+                        if (webHookMessage.text.Contains("https://www.google.com/maps/place"))
+                        {
+                            watsonResult = _watsonHelper.Consume(webHookMessage.from, "1");
+                            var message = watsonResult.Output.Generic[0].Text;
+                            WebHookHelper.sendTXTMsg(webHookMessage.from, message);
+                            _sessionsManager.UpdateSessionStep(webHookMessage.from);
+                        }
+                        else
+                        {
+                            watsonResult = _watsonHelper.Consume(webHookMessage.from);
+                            var message = watsonResult.Output.Generic[0].Text;
+                            WebHookHelper.sendTXTMsg(webHookMessage.from, message);
+
+                        }
                         break;
                     }
+
+                case 4:
+                    {
+                        watsonResult = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text);
+                        var message = watsonResult.Output.Generic[0].Text;
+                        message += Environment.NewLine + "1- 9:00AM - 1:00PM" + Environment.NewLine + "2- 1:00PM - 5:00PM" + Environment.NewLine + "3- 5:00PM - 9:00PM";
+                        WebHookHelper.sendTXTMsg(webHookMessage.from, message);
+                        _sessionsManager.UpdateSessionStep(webHookMessage.from);
+                        break;
+                    }
+
+                case 5:
+                    {
+                        watsonResult = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text);
+                        var message = watsonResult.Output.Generic[0].Text;
+                        if (message.Contains("please choose from choices"))
+                        {
+                            WebHookHelper.sendTXTMsg(webHookMessage.from, message);
+                        }
+                        else
+                        {
+                            WebHookHelper.sendTXTMsg(webHookMessage.from, message);
+                            _sessionsManager.UpdateSessionStep(webHookMessage.from);
+                        }
+
+                        break;
+                    }
+
+                case 6:
+                    {
+                        watsonResult = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text);
+                        var message = watsonResult.Output.Generic[0].Text;
+                        var nextCars = UserCars[webHookMessage.from].Where(c => string.IsNullOrEmpty(c.BidderHyazaOrigin) && c.RequireSelectHyaza == 1);
+                        if (nextCars.Any())
+                        {
+                            watsonResult = _watsonHelper.Consume(webHookMessage.from, "1");
+                            message = message.Replace("{lot}", nextCars.FirstOrDefault().AuctionInfo.lot.ToString());
+                        }
+                        else
+                        {
+                            watsonResult = _watsonHelper.Consume(webHookMessage.from);
+                        }
+                        WebHookHelper.sendTXTMsg(webHookMessage.from, message);
+
+                        break;
+                    }
+
+
 
                 default:
                     {
