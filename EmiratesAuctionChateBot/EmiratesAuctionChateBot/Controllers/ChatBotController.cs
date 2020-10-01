@@ -31,6 +31,8 @@ namespace EmiratesAuctionChateBot.Controllers
         private readonly IWatsonHelper _watsonHelper;
         private readonly IConfiguration _config;
         private Dictionary<string, List<CarVM>> UserCars = new Dictionary<string, List<CarVM>>();
+        private Dictionary<string, string> UserAuthToken = new Dictionary<string, string>();
+        private Dictionary<string, string> UserAuctionId = new Dictionary<string, string>();
         private Dictionary<int, string> Emirates = new Dictionary<int, string>(new List<KeyValuePair<int, string>>()
         {
             new KeyValuePair<int, string>(1,"Abu Dhabi"),
@@ -60,6 +62,9 @@ namespace EmiratesAuctionChateBot.Controllers
 
             UserPhone = phone;
 
+
+            UserAuctionId[UserPhone] = AuctionId;
+            UserAuthToken[UserPhone] = authToken;
 
             string APIUrl = $"checkout/cars/getauctiondetails?auctionid={AuctionId}&authtoken={authToken}&source = androidphone";
 
@@ -246,7 +251,7 @@ namespace EmiratesAuctionChateBot.Controllers
                             watsonResult = _watsonHelper.Consume(webHookMessage.from);
                         }
                         WebHookHelper.sendTXTMsg(webHookMessage.from, message);
-
+                        ChatBot(UserAuthToken[UserPhone], UserAuctionId[UserPhone], webHookMessage.to);
 
                         break;
                     }
