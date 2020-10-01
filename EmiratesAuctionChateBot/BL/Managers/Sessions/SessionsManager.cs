@@ -43,7 +43,7 @@ namespace BL.Managers
             }
             catch (Exception ex)
             {
-                //LogHelper.LogException(ex);
+                LogHelper.LogException(ex);
             }
             return session;
         }

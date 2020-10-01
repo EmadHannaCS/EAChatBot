@@ -95,14 +95,15 @@ namespace EmiratesAuctionChateBot.Controllers
                         Environment.NewLine + "5- Fujairah" + Environment.NewLine + "6- Ajman" + Environment.NewLine + "7- Umm Al Quwian";
 
                     CarsList.Remove(car);
+                    break;
                 }
                 else if (car.DeliveryStatus != 1 && car.CheckOutInfo.HasSourceLocation == 1 && car.CheckOutInfo.AllowDeliveryRequest == 1)
                 {
                     _sessionsManager.UpdateSessionStep(UserPhone, 2);
                     CarsList.Remove(car);
+                    break;
                 }
 
-                break;
             }
             WebHookHelper.sendTXTMsg(UserPhone, message);
             _sessionsManager.UpdateSessionStep(UserPhone);
@@ -112,10 +113,12 @@ namespace EmiratesAuctionChateBot.Controllers
 
 
         [HttpPost("ReceiveMessages")]
-        public Task ChatBot(object data)
+        [Consumes("application/x-www-form-urlencoded")]
+        public Task ChatBot([FromForm] object data)
         {
+            var webHookMessage = JsonSerializer.Deserialize<WebhookResponse>(this.HttpContext.Request.Form["data"].ToString());
 
-            WebhookResponse webHookMessage = JsonSerializer.Deserialize<WebhookResponse>(data.ToString());
+            //WebhookResponse webHookMessage = JsonSerializer.Deserialize<WebhookResponse>(data.ToString());
             var userStep = _sessionsManager.GetSession(webHookMessage.from)?.LatestResponseStep;
             switch (userStep)
             {
