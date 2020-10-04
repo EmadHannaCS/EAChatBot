@@ -31,15 +31,15 @@ namespace EmiratesAuctionChateBot.Controllers
         private readonly IWatsonHelper _watsonHelper;
         private readonly IConfiguration _config;
         private Dictionary<string, List<CarVM>> UserCars = new Dictionary<string, List<CarVM>>();
-        private Dictionary<int, string> Emirates = new Dictionary<int, string>(new List<KeyValuePair<int, string>>()
+        private Dictionary<int, KeyValuePair<int, string>> Emirates = new Dictionary<int, KeyValuePair<int, string>>(new List<KeyValuePair<int, KeyValuePair<int, string>>>()
         {
-            new KeyValuePair<int, string>(1,"Abu Dhabi"),
-            new KeyValuePair<int, string>(2,"Dubai"),
-            new KeyValuePair<int, string>(3,"Sharja"),
-            new KeyValuePair<int, string>(4,"Ras Al Khaimah"),
-            new KeyValuePair<int, string>(5,"Fujairah"),
-            new KeyValuePair<int, string>(6,"Ajman"),
-            new KeyValuePair<int, string>(7,"Umm Al Quwian")
+            new KeyValuePair<int, KeyValuePair<int,string>>(1,new KeyValuePair<int,string>(121,"Abu Dhabi")),
+            new KeyValuePair<int, KeyValuePair<int,string>>(2,new KeyValuePair<int,string>(120,"Dubai")),
+            new KeyValuePair<int, KeyValuePair<int,string>>(3,new KeyValuePair<int,string>(122,"Sharja")),
+            new KeyValuePair<int, KeyValuePair<int,string>>(4,new KeyValuePair<int,string>(124,"Ras Al Khaimah")),
+            new KeyValuePair<int, KeyValuePair<int,string>>(5,new KeyValuePair<int,string>(149,"Fujairah")),
+            new KeyValuePair<int, KeyValuePair<int,string>>(6,new KeyValuePair<int,string>(123,"Ajman")),
+            new KeyValuePair<int, KeyValuePair<int,string>>(7,new KeyValuePair<int,string>(125,"Umm Al Quwian"))
 
         });
 
@@ -142,9 +142,12 @@ namespace EmiratesAuctionChateBot.Controllers
                             }
                             else
                             {
+                                using (var formDataContent = new MultipartFormDataContent()) {
+                                
+                                }
                                 SelectedEmirate = webHookMessage.text;
                                 ChoosedEmirate[UserPhone] = SelectedEmirate;
-                                message = message.Replace("{number}", webHookMessage.text).Replace("{country}", Emirates.GetValueOrDefault(int.Parse(webHookMessage.text)));
+                                message = message.Replace("{number}", webHookMessage.text).Replace("{country}", Emirates.GetValueOrDefault(int.Parse(webHookMessage.text)).Value);
                                 WebHookHelper.sendTXTMsg(UserPhone, message);
                                 _sessionsManager.UpdateSessionStep(webHookMessage.from);
                             }
@@ -178,7 +181,7 @@ namespace EmiratesAuctionChateBot.Controllers
                         else if (watsonResult.Output.Entities[0].Value.Contains("yes"))
                         {
                             SelectedEmirate = ChoosedEmirate[UserPhone];
-                            message = watsonResult.Output.Generic[0].Text.Replace("{country}", Emirates.GetValueOrDefault(int.Parse(SelectedEmirate))).Replace("{lot}", car.AuctionInfo.lot.ToString());
+                            message = watsonResult.Output.Generic[0].Text.Replace("{country}", Emirates.GetValueOrDefault(int.Parse(SelectedEmirate)).Value).Replace("{lot}", car.AuctionInfo.lot.ToString());
                             WebHookHelper.sendTXTMsg(UserPhone, message);
                             _sessionsManager.UpdateSessionStep(webHookMessage.from);
                         }
