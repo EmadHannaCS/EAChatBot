@@ -14,15 +14,15 @@ namespace BL.Managers
         private readonly IUnitOfWork _uow;
         private readonly IRepository<UserSession> _repo;
 
-        private static List<UserSession> _sessions;
+        //private static List<UserSession> _sessions;
 
 
         public SessionsManager(IUnitOfWork unit)
         {
             _uow = unit;
             _repo = unit.GetRepository<UserSession>();
-            if (_sessions == null)
-                _sessions = new List<UserSession>();
+            //if (_sessions == null)
+            //    _sessions = new List<UserSession>();
         }
         public UserSession GetSession(string phone)
         {
@@ -31,14 +31,14 @@ namespace BL.Managers
             UserSession session = null;
             try
             {
-                session = _sessions.FirstOrDefault(c => c.UserPhone == phone);
+                //session = _sessions.FirstOrDefault(c => c.UserPhone == phone);
                 if (session == null) //check db
                 {
                     session = _repo.FirstOrDefault(c => c.UserPhone == phone);
-                    if (session != null)//add in list
-                    {
-                        _sessions.Add(session);
-                    }
+                    //if (session != null)//add in list
+                    //{
+                    //    _sessions.Add(session);
+                    //}
                 }
             }
             catch (Exception ex)
@@ -74,15 +74,15 @@ namespace BL.Managers
                     }
                     _uow.Commit();
 
-                    var staticSession = _sessions.FirstOrDefault(c => c.UserPhone == phone);
-                    if (staticSession == null)
-                    {
-                        _sessions.Add(session);
-                    }
-                    else
-                    {
-                        staticSession = session;
-                    }
+                    //var staticSession = _sessions.FirstOrDefault(c => c.UserPhone == phone);
+                    //if (staticSession == null)
+                    //{
+                    //    _sessions.Add(session);
+                    //}
+                    //else
+                    //{
+                    //    staticSession = session;
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -99,15 +99,15 @@ namespace BL.Managers
                 session.LatestResponseStep = step ?? session.LatestResponseStep + 1;
                 _uow.Commit();
 
-                var staticSession = _sessions.FirstOrDefault(c => c.UserPhone == phone);
-                if (staticSession == null)
-                {
-                    _sessions.Add(session);
-                }
-                else
-                {
-                    staticSession = session;
-                }
+                //var staticSession = _sessions.FirstOrDefault(c => c.UserPhone == phone);
+                //if (staticSession == null)
+                //{
+                //    _sessions.Add(session);
+                //}
+                //else
+                //{
+                //    staticSession = session;
+                //}
 
             }
 

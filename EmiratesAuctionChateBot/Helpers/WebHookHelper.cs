@@ -14,6 +14,8 @@ namespace Helpers
 
         public static HttpResponseMessage sendTXTMsg(string phone, string msg)
         {
+            if (string.IsNullOrWhiteSpace(msg) || string.IsNullOrWhiteSpace(phone))
+                return null;
 
             string Url = "?apikey=" + System.Web.HttpUtility.UrlEncode(apikey) + "&number=" + System.Web.HttpUtility.UrlEncode(phone) + "&text=" + System.Web.HttpUtility.UrlEncode(msg);
             HttpResponseMessage message = WebClientHelper.Consume(baseUrl, HttpMethod.Get, Url);
