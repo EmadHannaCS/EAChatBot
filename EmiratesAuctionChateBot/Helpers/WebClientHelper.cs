@@ -10,7 +10,7 @@ namespace Helpers
 {
     public class WebClientHelper
     {
-        public static HttpResponseMessage Consume(string baseurl, HttpMethod method, string relativeUrl,
+        public static HttpResponseMessage Consume(string baseurl, HttpMethod method, string relativeUrl, HttpContent content = null,
            string jsonObj = null, string lang = "", string basicAuthUser = "", string basicAuthPassword = "")
         {
             using (var client = new HttpClient())
@@ -28,7 +28,13 @@ namespace Helpers
                 //client.DefaultRequestHeaders.Add("Accept-Language", lang);
                 HttpRequestMessage request = new HttpRequestMessage(method, relativeUrl);
                 if (jsonObj != null)
+                {
                     request.Content = new StringContent(jsonObj, Encoding.UTF8, "application/json");
+                }
+                if (content != null)
+                {
+                    request.Content = content;
+                }
                 var Res = new HttpResponseMessage();
                 try
                 {

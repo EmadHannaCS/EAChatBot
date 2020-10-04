@@ -22,6 +22,7 @@ namespace EmiratesAuctionChateBot.Controllers
     {
 
         private const string APIBaseUrl = "https://api.eas.ae/v2/";
+
         private readonly ISessionsManager _sessionsManager;
 
         private static Dictionary<string, AuctionDetailsVM> UserAuctionDetails = new Dictionary<string, AuctionDetailsVM>();
@@ -33,15 +34,15 @@ namespace EmiratesAuctionChateBot.Controllers
         private static Dictionary<string, List<CarVM>> UserCars = new Dictionary<string, List<CarVM>>();
         private static Dictionary<string, string> UserAuthToken = new Dictionary<string, string>();
         private static Dictionary<string, string> UserAuctionId = new Dictionary<string, string>();
-        private static Dictionary<int, string> Emirates = new Dictionary<int, string>(new List<KeyValuePair<int, string>>()
+        private static Dictionary<int, KeyValuePair<int, string>> Emirates = new Dictionary<int, KeyValuePair<int, string>>(new List<KeyValuePair<int, KeyValuePair<int, string>>>()
         {
-            new KeyValuePair<int, string>(1,"Abu Dhabi"),
-            new KeyValuePair<int, string>(2,"Dubai"),
-            new KeyValuePair<int, string>(3,"Sharja"),
-            new KeyValuePair<int, string>(4,"Ras Al Khaimah"),
-            new KeyValuePair<int, string>(5,"Fujairah"),
-            new KeyValuePair<int, string>(6,"Ajman"),
-            new KeyValuePair<int, string>(7,"Umm Al Quwian")
+            new KeyValuePair<int, KeyValuePair<int,string>>(1,new KeyValuePair<int, string>(121,"Abu Dhabi")),
+            new KeyValuePair<int, KeyValuePair<int,string>>(2,new KeyValuePair<int, string>(120,"Dubai")),
+            new KeyValuePair<int, KeyValuePair<int,string>>(3,new KeyValuePair<int, string>(122,"Sharja")),
+            new KeyValuePair<int, KeyValuePair<int,string>>(4,new KeyValuePair<int, string>(124,"Ras Al Khaimah")),
+            new KeyValuePair<int, KeyValuePair<int,string>>(5,new KeyValuePair<int, string>(149,"Fujairah")),
+            new KeyValuePair<int, KeyValuePair<int,string>>(6,new KeyValuePair<int, string>(123,"Ajman")),
+            new KeyValuePair<int, KeyValuePair<int,string>>(7,new KeyValuePair<int, string>(125,"Umm Al Quwian"))
 
         });
 
@@ -159,8 +160,17 @@ namespace EmiratesAuctionChateBot.Controllers
                                 }
                                 else
                                 {
+                                    using (var multiPartFormData = new MultipartFormDataContent())
+                                    {
+                                        multiPartFormData.Add(new StringContent(webHookMessage.from), "authtoken");
+                                        multiPartFormData.Add(new StringContent(car.AuctionInfo.lot.ToString()), "ciaid");
+                                        multiPartFormData.Add(new StringContent(Emirates.GetValueOrDefault(int.Parse(webHookMessage.text)).Key.ToString()), "hayazaOriginId");
+                                        var result = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, "carsonline/updatehyazaorigin?source=androidphone", multiPartFormData);
+
+                                    }
+
                                     UserSelectedEmirate[webHookMessage.from] = webHookMessage.text;
-                                    message = message.Replace("{number}", webHookMessage.text).Replace("{country}", Emirates.GetValueOrDefault(int.Parse(webHookMessage.text)));
+                                    message = message.Replace("{number}", webHookMessage.text).Replace("{country}", Emirates.GetValueOrDefault(int.Parse(webHookMessage.text)).Value);
                                     WebHookHelper.sendTXTMsg(webHookMessage.from, message);
                                     _sessionsManager.UpdateSessionStep(webHookMessage.from);
                                 }
@@ -193,7 +203,7 @@ namespace EmiratesAuctionChateBot.Controllers
                             }
                             else if (UserWatsonResult[webHookMessage.from].Output.Entities[0].Value.Contains("yes"))
                             {
-                                message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text.Replace("{country}", Emirates.GetValueOrDefault(int.Parse(UserSelectedEmirate[webHookMessage.from]))).Replace("{lot}", car.AuctionInfo.lot.ToString());
+                                message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text.Replace("{country}", Emirates.GetValueOrDefault(int.Parse(UserSelectedEmirate[webHookMessage.from])).Value).Replace("{lot}", car.AuctionInfo.lot.ToString());
                                 WebHookHelper.sendTXTMsg(webHookMessage.from, message);
                                 _sessionsManager.UpdateSessionStep(webHookMessage.from);
                             }
