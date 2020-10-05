@@ -26,7 +26,7 @@ namespace EmiratesAuctionChateBot
             services.AddControllers();
 
             services.AddDbContext<ChatBotDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ChatBotDBEntities")));
-            services.AddTransient<DbContext, ChatBotDBContext>();
+            services.AddScoped<DbContext, ChatBotDBContext>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ISessionsManager, SessionsManager>();
             services.AddTransient<IWatsonHelper, WatsonHelper>();
