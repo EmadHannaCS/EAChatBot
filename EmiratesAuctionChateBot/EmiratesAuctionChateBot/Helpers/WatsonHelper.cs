@@ -12,7 +12,7 @@ namespace EmiratesAuctionChateBot.Helpers
     {
         private const string ApiKey = "83lOPBncWMlhvCPSEmFsGKmI4bMZP0SV5Re4RKTw8SrH";
         private const string ApiUrl = "https://api.eu-de.assistant.watson.cloud.ibm.com/instances/176bf4ac-aab9-4c30-9d49-f87ba0ad4883";
-        private const string AssistantId = "76d9c3e0-aa0e-4572-b16f-b9622ba6a240";
+        private const string AssistantId = "a725d387-c5c7-4ced-bf76-65e249aa7412";
         private readonly ISessionsManager _sessionsManager;
 
 

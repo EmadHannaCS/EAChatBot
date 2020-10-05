@@ -58,38 +58,53 @@ namespace EmiratesAuctionChateBot.Controllers
         }
 
         [HttpGet("StartChat")]
-        public Task ChatBot(string authToken, string AuctionId, string phone)
+        public Task ChatBot(string authToken, string auctionId, string phone, bool firstCall = true)
         {
 
             try
             {
                 phone = WebClientHelper.HandlePhoneFormat(phone);
 
-                UserAuctionId[phone] = AuctionId;
+                UserAuctionId[phone] = auctionId;
                 UserAuthToken[phone] = authToken;
 
-                string APIUrl = $"checkout/cars/getauctiondetails?auctionid={AuctionId}&authtoken={authToken}&source = androidphone";
+                string APIUrl = $"checkout/cars/getauctiondetails?auctionid={auctionId}&authtoken={authToken}&source = androidphone";
 
                 var result = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, APIUrl);
 
                 UserAuctionDetails[phone] = JsonSerializer.Deserialize<AuctionDetailsVM>(result.Content.ReadAsStringAsync().Result);
 
+                #region ForTest
+                UserAuctionDetails[phone].Cars[0].RequireSelectHyaza = 0;
+                UserAuctionDetails[phone].Cars[0].DeliveryStatus = 0;
+                UserAuctionDetails[phone].Cars[0].CheckOutInfo.AllowDeliveryRequest = 1;
+                UserAuctionDetails[phone].Cars[0].CheckOutInfo.HasSourceLocation = 1;
+
+
+                #endregion
+
+
 
                 UserWatsonResult[phone] = _watsonHelper.Consume(phone, "hello", true);
 
-                string message = UserWatsonResult[phone].Output.Generic[0].Text.Replace("{SOPCode}", UserAuctionDetails[phone].SOPNumber).Replace("{TotalAmount}", UserAuctionDetails[phone].TotalAmount.ToString());
-                var send = false;
-                string carOption = "{0} lot# {1} with the price of {2} {3} ";
-                for (int i = 0; i < UserAuctionDetails[phone].Cars.Count; i++)
+                string message = string.Empty;
+                if (firstCall)
                 {
-                    send = true;
-                    var car = UserAuctionDetails[phone].Cars[i];
-                    message += Environment.NewLine + (i + 1) + "-" + string.Format(carOption, car.makeEn + " " + car.modelEn, car.AuctionInfo.lot, car.AuctionInfo.currencyEn, car.AuctionInfo.currentPrice);
+                    message = UserWatsonResult[phone].Output.Generic[0].Text.Replace("{SOPCode}", UserAuctionDetails[phone].SOPNumber).Replace("{TotalAmount}", UserAuctionDetails[phone].TotalAmount.ToString());
 
+                    var send = false;
+                    string carOption = "{0} lot# {1} with the price of {2} {3} ";
+                    for (int i = 0; i < UserAuctionDetails[phone].Cars.Count; i++)
+                    {
+                        send = true;
+                        var car = UserAuctionDetails[phone].Cars[i];
+                        message += Environment.NewLine + (i + 1) + "-" + string.Format(carOption, car.makeEn + " " + car.modelEn, car.AuctionInfo.lot, car.AuctionInfo.currencyEn, car.AuctionInfo.currentPrice);
+
+                    }
+
+                    if (send)
+                        WebHookHelper.sendTXTMsg(phone, message);
                 }
-                if (send)
-                    WebHookHelper.sendTXTMsg(phone, message);
-
                 message = string.Empty;
                 if (!UserCars.ContainsKey(phone))
                 {
@@ -97,6 +112,8 @@ namespace EmiratesAuctionChateBot.Controllers
                 }
                 var cars = UserCars[phone];
                 var carsCount = cars.Count;
+
+                var userHyazaCars = cars.Where(car => car.BidderHyazaOrigin == string.Empty && car.RequireSelectHyaza == 1).ToList();
                 for (int i = 0; i < carsCount; i++)
                 {
                     var car = cars[i];
@@ -116,14 +133,27 @@ namespace EmiratesAuctionChateBot.Controllers
 
                         break;
                     }
-                    else if (car.DeliveryStatus != 1 && car.CheckOutInfo.HasSourceLocation == 1 && car.CheckOutInfo.AllowDeliveryRequest == 1)
+
+
+                }
+                if (userHyazaCars.Count == 0)
+                {
+                    var deliveryCars = cars.Where(car => car.DeliveryStatus != 1 && car.CheckOutInfo.HasSourceLocation == 1 && car.CheckOutInfo.AllowDeliveryRequest == 1).ToList();
+                    if (deliveryCars.Count > 0)
                     {
-                        UserCarNum[phone] = i;
-                        _sessionsManager.UpdateSessionStep(phone, 3);
-                        message = _watsonHelper.Consume(phone, "1").Output.Generic[0].Text.Replace("{CarNum}", car.makeEn + " " + car.modelEn).Replace("{lot}", car.AuctionInfo.lot.ToString());
-                        UserCars[phone].Remove(car);
-                        break;
+                        for (int i = 0; i < deliveryCars.Count; i++)
+                        {
+                            var car = deliveryCars[i];
+                            UserCarNum[phone] = i;
+                            // message += _watsonHelper.Consume(phone, "1").Output.Generic[0].Text.Replace("{CarNum}", car.makeEn + " " + car.modelEn).Replace("{lot}", car.AuctionInfo.lot.ToString());
+
+                            UserCars[phone].Remove(car);
+                        }
+                        message += _watsonHelper.Consume(phone, "1").Output.Generic[0].Text;
+
                     }
+                    _sessionsManager.UpdateSessionStep(phone, 3);
+
 
                 }
                 WebHookHelper.sendTXTMsg(phone, message);
@@ -169,10 +199,10 @@ namespace EmiratesAuctionChateBot.Controllers
                             {
                                 using (var multiPartFormData = new MultipartFormDataContent())
                                 {
-                                    multiPartFormData.Add(new StringContent(webHookMessage.from), "authtoken");
+                                    multiPartFormData.Add(new StringContent(UserAuthToken[webHookMessage.from]), "authtoken");
                                     multiPartFormData.Add(new StringContent(car.AuctionInfo.lot.ToString()), "ciaid");
                                     multiPartFormData.Add(new StringContent(Emirates.GetValueOrDefault(int.Parse(webHookMessage.text)).Key.ToString()), "hayazaOriginId");
-                                    var result = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, "carsonline/updatehyazaorigin?source=androidphone", multiPartFormData);
+                                    //var result = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, "carsonline/updatehyazaorigin?source=androidphone", multiPartFormData);
 
                                 }
 
@@ -211,9 +241,18 @@ namespace EmiratesAuctionChateBot.Controllers
                             }
                             else if (UserWatsonResult[webHookMessage.from].Output.Entities[0].Value.Contains("yes"))
                             {
-                                message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text.Replace("{country}", Emirates.GetValueOrDefault(int.Parse(UserSelectedEmirate[webHookMessage.from])).Value).Replace("{lot}", car.AuctionInfo.lot.ToString());
-                                WebHookHelper.sendTXTMsg(webHookMessage.from, message);
-                                _sessionsManager.UpdateSessionStep(webHookMessage.from);
+                                if (UserCars[webHookMessage.from].Count > 0)
+                                {
+                                    ChatBot(UserAuthToken[webHookMessage.from], UserAuctionId[webHookMessage.from], webHookMessage.from, false);
+
+                                }
+                                else
+                                {
+                                    message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text.Replace("{country}", Emirates.GetValueOrDefault(int.Parse(UserSelectedEmirate[webHookMessage.from])).Value).Replace("{lot}", car.AuctionInfo.lot.ToString());
+                                    WebHookHelper.sendTXTMsg(webHookMessage.from, message);
+                                    _sessionsManager.UpdateSessionStep(webHookMessage.from);
+
+                                }
                             }
 
                             break;
@@ -229,6 +268,26 @@ namespace EmiratesAuctionChateBot.Controllers
                                 var locationSplits = locationLatLong.Split(",");
                                 var latitude = locationSplits[0];
                                 var longitude = locationSplits[1];
+
+                                WebHookHelper.sendTXTMsg(webHookMessage.from, "Processing...");
+
+                                string APIUrl1 = $"checkout/cars/getrecoveryprice?GX={latitude}&GY={longitude}&authtoken={UserAuthToken[webHookMessage.from]}&invoiceId={UserAuctionDetails[webHookMessage.from].SOPId}&source=androidphone";
+                                var result1 = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, APIUrl1);
+                                var recoveryPrice = JsonSerializer.Deserialize<RecoveryPriceVM>(result1.Content.ReadAsStringAsync().Result);
+
+                                UserAuctionDetails[webHookMessage.from].CheckoutDetails = new CheckoutDetailsVM();
+                                UserAuctionDetails[webHookMessage.from].CheckoutDetails.RecoveryPrice = recoveryPrice;
+
+                                string APIUrl2 = $"checkout/cars/getaddressdetailsfromgeo?GX={latitude}&GY={longitude}&authtoken={UserAuthToken[webHookMessage.from]}&invoiceId={UserAuctionDetails[webHookMessage.from].SOPNumber}&source=androidphone";
+                                var result2 = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, APIUrl2);
+                                var adressDetails = JsonSerializer.Deserialize<AdressDetailsVM>(result2.Content.ReadAsStringAsync().Result);
+
+                                UserAuctionDetails[webHookMessage.from].CheckoutDetails.AdressDetails = new AddressVM
+                                {
+                                    AreaId = adressDetails.results.FirstOrDefault(c => c.field_id == "AreaId")?.value,
+                                    CityId = adressDetails.results.FirstOrDefault(c => c.field_id == "CityId")?.value,
+                                    StreetAddressEn = adressDetails.results.FirstOrDefault(c => c.field_id == "StreetAddressEn")?.value,
+                                };
 
                                 UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, "1");
                                 var message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
@@ -265,6 +324,7 @@ namespace EmiratesAuctionChateBot.Controllers
                             }
                             else
                             {
+                                UserAuctionDetails[webHookMessage.from].CheckoutDetails.UserPreferredTime = (int.Parse(webHookMessage.text) - 1);
                                 WebHookHelper.sendTXTMsg(webHookMessage.from, message);
                                 _sessionsManager.UpdateSessionStep(webHookMessage.from);
                             }
@@ -274,6 +334,8 @@ namespace EmiratesAuctionChateBot.Controllers
 
                     case 6:
                         {
+
+
                             UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text);
                             var message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
                             WebHookHelper.sendTXTMsg(webHookMessage.from, message);
@@ -289,6 +351,19 @@ namespace EmiratesAuctionChateBot.Controllers
                             {
                                 UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from);
                                 message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
+
+                                WebHookHelper.sendTXTMsg(webHookMessage.from, "Processing...");
+                                var checkoutDetails = UserAuctionDetails[webHookMessage.from].CheckoutDetails;
+                                var priceList = string.Join(",", checkoutDetails.RecoveryPrice?.LotPrices?.Select(c => c.LotNumber + "-" + c.Distance + "-" + c.Price).ToList());
+
+                                string APIUrl1 = $"checkout/cars/createdeliveryrequest?CountryId={checkoutDetails.RecoveryPrice.CountryId}&CountryName={checkoutDetails.RecoveryPrice.CountryNameEn}&authtoken={UserAuthToken[webHookMessage.from]}&AreaId={checkoutDetails.AdressDetails.AreaId}&source=androidphone&NearestLandMark=&SpecialNotes={webHookMessage.text}&CityId={checkoutDetails.AdressDetails.CityId}&BuldingNo=&PreferredTime={checkoutDetails.UserPreferredTime}&invoiceId={UserAuctionDetails[webHookMessage.from].SOPId}&StreetAddressEn={checkoutDetails.AdressDetails.StreetAddressEn}&PriceList={priceList}";
+                                var result1 = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, APIUrl1);
+                                var requestId = JsonSerializer.Deserialize<object>(result1.Content.ReadAsStringAsync().Result);
+
+                                string APIUrl2 = $"checkout/cars/confirmdeliveryrequest?authtoken={UserAuthToken[webHookMessage.from]}&source=androidphone&InvoiceID={UserAuctionDetails[webHookMessage.from].SOPId}&deliveryRequestIds={requestId}";
+                                var result2 = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, APIUrl2);
+                                var result = JsonSerializer.Deserialize<object>(result2.Content.ReadAsStringAsync().Result);
+
                             }
                             WebHookHelper.sendTXTMsg(webHookMessage.from, message);
 
