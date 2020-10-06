@@ -22,7 +22,7 @@ namespace EmiratesAuctionChateBot.Controllers
     public class ChatBotController : ControllerBase
     {
 
-        private const string APIBaseUrl = "https://api.eas.ae/v2/";
+        private readonly string APIBaseUrl = string.Empty;
 
         private readonly ISessionsManager _sessionsManager;
 
@@ -55,6 +55,7 @@ namespace EmiratesAuctionChateBot.Controllers
             _sessionsManager = sessionsManager;
             _watsonHelper = watsonHelper;
             _config = config;
+            APIBaseUrl = _config.GetValue<string>("APISBaseUrl");
         }
 
         [HttpGet("StartChat")]
