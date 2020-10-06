@@ -29,7 +29,7 @@ namespace EmiratesAuctionChateBot.Helpers
 
         private static AssistantService assistant = new AssistantService("2020-09-29", authenticator);
 
-        private static DetailedResponse<SessionResponse> session;
+        private static Dictionary<string, DetailedResponse<SessionResponse>> UserSession = new Dictionary<string, DetailedResponse<SessionResponse>>();
 
 
         public MessageResponse Consume(string phone, string Text = "", bool isStart = false)
@@ -41,27 +41,27 @@ namespace EmiratesAuctionChateBot.Helpers
             var sessionId = string.Empty;
             if (isStart)
             {
-                session = assistant.CreateSession(AssistantId);
-                _sessionsManager.SetSession(phone, session.Result.SessionId);
+                UserSession[phone] = assistant.CreateSession(AssistantId);
+                _sessionsManager.SetSession(phone, UserSession[phone].Result.SessionId);
 
             }
-            else if (session == null)
+            else if (UserSession[phone] == null)
             {
-                session = assistant.CreateSession(AssistantId);
+                UserSession[phone] = assistant.CreateSession(AssistantId);
 
                 sessionId = _sessionsManager.GetSession(phone)?.LastSessionId;
                 if (string.IsNullOrWhiteSpace(sessionId))
                 {
-                    _sessionsManager.SetSession(phone, session.Result.SessionId);
+                    _sessionsManager.SetSession(phone, UserSession[phone].Result.SessionId);
 
                 }
                 else
                 {
-                    session.Result.SessionId = sessionId;
+                    UserSession[phone].Result.SessionId = sessionId;
                 }
             }
 
-            messageResponse = assistant.Message(AssistantId, session.Result.SessionId, new MessageInput() { Text = Text });
+            messageResponse = assistant.Message(AssistantId, UserSession[phone].Result.SessionId, new MessageInput() { Text = Text });
 
             MessageResponse watsonResponse = messageResponse.Result;
 

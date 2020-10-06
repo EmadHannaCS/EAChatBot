@@ -71,6 +71,7 @@ namespace BL.Managers
                         session.ModifiedAt = DateTime.Now;
                         session.LastSessionId = sessionId;
                         session.LatestResponseStep = 0;
+
                     }
                     _uow.Commit();
 

@@ -17,14 +17,6 @@ namespace DAL.DB
 
         public virtual DbSet<UserSession> UserSession { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=.;Database=ChatBotDB;User ID=sa;Password=123456");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserSession>(entity =>
