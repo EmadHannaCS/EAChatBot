@@ -15,6 +15,8 @@ namespace ViewModels
         public string BidderHyazaOrigin { get; set; }
         public CheckOutInfoVM CheckOutInfo { get; set; }
         public AuctionInfoVM AuctionInfo { get; set; }
+        public int DeliveryRequestId { get; set; }
+
 
     }
 }

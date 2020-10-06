@@ -59,7 +59,7 @@ namespace EmiratesAuctionChateBot.Controllers
         }
 
         [HttpGet("StartChat")]
-        public Task ChatBot(string authToken, string auctionId, string phone, bool firstCall = true)
+        public Task ChatBot(string authToken, string auctionId, string phone, bool firstCall = true, bool isEnd = false)
         {
 
             try
@@ -76,20 +76,19 @@ namespace EmiratesAuctionChateBot.Controllers
                 UserAuctionDetails[phone] = JsonSerializer.Deserialize<AuctionDetailsVM>(result.Content.ReadAsStringAsync().Result);
 
                 #region ForTest
-                UserAuctionDetails[phone].Cars[0].RequireSelectHyaza = 0;
-                UserAuctionDetails[phone].Cars[0].DeliveryStatus = 0;
-                UserAuctionDetails[phone].Cars[0].CheckOutInfo.AllowDeliveryRequest = 1;
-                UserAuctionDetails[phone].Cars[0].CheckOutInfo.HasSourceLocation = 1;
-
+                //UserAuctionDetails[phone].Cars[0].RequireSelectHyaza = 0;
+                //UserAuctionDetails[phone].Cars[0].DeliveryStatus = 0;
+                //UserAuctionDetails[phone].Cars[0].CheckOutInfo.AllowDeliveryRequest = 1;
+                //UserAuctionDetails[phone].Cars[0].CheckOutInfo.HasSourceLocation = 1;
 
                 #endregion
 
 
 
-                UserWatsonResult[phone] = _watsonHelper.Consume(phone, "hello", true);
+                UserWatsonResult[phone] = _watsonHelper.Consume(phone, isEnd ? "" : "1", true);
 
                 string message = string.Empty;
-                if (firstCall)
+                if (firstCall || isEnd)
                 {
                     message = UserWatsonResult[phone].Output.Generic[0].Text.Replace("{SOPCode}", UserAuctionDetails[phone].SOPNumber).Replace("{TotalAmount}", UserAuctionDetails[phone].TotalAmount.ToString());
 
@@ -272,16 +271,16 @@ namespace EmiratesAuctionChateBot.Controllers
 
                                 WebHookHelper.sendTXTMsg(webHookMessage.from, "Processing...");
 
-                                string APIUrl1 = $"checkout/cars/getrecoveryprice?GX={latitude}&GY={longitude}&authtoken={UserAuthToken[webHookMessage.from]}&invoiceId={UserAuctionDetails[webHookMessage.from].SOPId}&source=androidphone";
-                                var result1 = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, APIUrl1);
-                                var recoveryPrice = JsonSerializer.Deserialize<RecoveryPriceVM>(result1.Content.ReadAsStringAsync().Result);
+                                string getrecoverypriceAPIUrl = $"checkout/cars/getrecoveryprice?GX={latitude}&GY={longitude}&authtoken={UserAuthToken[webHookMessage.from]}&invoiceId={UserAuctionDetails[webHookMessage.from].SOPId}&source=androidphone";
+                                var getrecoverypriceResult = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, getrecoverypriceAPIUrl);
+                                var recoveryPrice = JsonSerializer.Deserialize<RecoveryPriceVM>(getrecoverypriceResult.Content.ReadAsStringAsync().Result);
 
                                 UserAuctionDetails[webHookMessage.from].CheckoutDetails = new CheckoutDetailsVM();
                                 UserAuctionDetails[webHookMessage.from].CheckoutDetails.RecoveryPrice = recoveryPrice;
 
-                                string APIUrl2 = $"checkout/cars/getaddressdetailsfromgeo?GX={latitude}&GY={longitude}&authtoken={UserAuthToken[webHookMessage.from]}&invoiceId={UserAuctionDetails[webHookMessage.from].SOPNumber}&source=androidphone";
-                                var result2 = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, APIUrl2);
-                                var adressDetails = JsonSerializer.Deserialize<AdressDetailsVM>(result2.Content.ReadAsStringAsync().Result);
+                                string getaddressdetailsfromgeoAPIUrl = $"checkout/cars/getaddressdetailsfromgeo?GX={latitude}&GY={longitude}&authtoken={UserAuthToken[webHookMessage.from]}&invoiceId={UserAuctionDetails[webHookMessage.from].SOPNumber}&source=androidphone";
+                                var getaddressdetailsfromgeoResult = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, getaddressdetailsfromgeoAPIUrl);
+                                var adressDetails = JsonSerializer.Deserialize<AdressDetailsVM>(getaddressdetailsfromgeoResult.Content.ReadAsStringAsync().Result);
 
                                 UserAuctionDetails[webHookMessage.from].CheckoutDetails.AdressDetails = new AddressVM
                                 {
@@ -355,20 +354,26 @@ namespace EmiratesAuctionChateBot.Controllers
 
                                 WebHookHelper.sendTXTMsg(webHookMessage.from, "Processing...");
                                 var checkoutDetails = UserAuctionDetails[webHookMessage.from].CheckoutDetails;
-                                var priceList = string.Join(",", checkoutDetails.RecoveryPrice?.LotPrices?.Select(c => c.LotNumber + "-" + c.Distance + "-" + c.Price).ToList());
+                                var priceList = string.Join(",", checkoutDetails.RecoveryPrice?.LotPrices?.Select(c => c.LotNumber + "-" + c.Distance + "-" + c.Price)?.ToList() ?? new List<string>());
 
-                                string APIUrl1 = $"checkout/cars/createdeliveryrequest?CountryId={checkoutDetails.RecoveryPrice.CountryId}&CountryName={checkoutDetails.RecoveryPrice.CountryNameEn}&authtoken={UserAuthToken[webHookMessage.from]}&AreaId={checkoutDetails.AdressDetails.AreaId}&source=androidphone&NearestLandMark=&SpecialNotes={webHookMessage.text}&CityId={checkoutDetails.AdressDetails.CityId}&BuldingNo=&PreferredTime={checkoutDetails.UserPreferredTime}&invoiceId={UserAuctionDetails[webHookMessage.from].SOPId}&StreetAddressEn={checkoutDetails.AdressDetails.StreetAddressEn}&PriceList={priceList}";
-                                var result1 = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, APIUrl1);
-                                var requestId = JsonSerializer.Deserialize<object>(result1.Content.ReadAsStringAsync().Result);
+                                string createdeliveryrequestAPIUrl = $"checkout/cars/createdeliveryrequest?CountryId={checkoutDetails.RecoveryPrice.CountryId}&CountryName={checkoutDetails.RecoveryPrice.CountryNameEn}&authtoken={UserAuthToken[webHookMessage.from]}&AreaId={checkoutDetails.AdressDetails.AreaId}&source=androidphone&NearestLandMark=&SpecialNotes={webHookMessage.text}&CityId={checkoutDetails.AdressDetails.CityId}&BuldingNo=&PreferredTime={checkoutDetails.UserPreferredTime}&invoiceId={UserAuctionDetails[webHookMessage.from].SOPId}&StreetAddressEn={checkoutDetails.AdressDetails.StreetAddressEn}&PriceList={priceList}";
+                                var createdeliveryrequest = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, createdeliveryrequestAPIUrl);
+                                var createdeliveryrequestResult = JsonSerializer.Deserialize<object>(createdeliveryrequest.Content.ReadAsStringAsync().Result);
 
-                                string APIUrl2 = $"checkout/cars/confirmdeliveryrequest?authtoken={UserAuthToken[webHookMessage.from]}&source=androidphone&InvoiceID={UserAuctionDetails[webHookMessage.from].SOPId}&deliveryRequestIds={requestId}";
-                                var result2 = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, APIUrl2);
-                                var result = JsonSerializer.Deserialize<object>(result2.Content.ReadAsStringAsync().Result);
+                                string getdeliveryrequestforconfirmAPIUrl = $"checkout/cars/getdeliveryrequestforconfirm?authtoken={UserAuthToken[webHookMessage.from]}&source=androidphone&InvoiceID={UserAuctionDetails[webHookMessage.from].SOPId}";
+                                var getdeliveryrequestforconfirm = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, getdeliveryrequestforconfirmAPIUrl);
+                                var getdeliveryrequestforconfirmResult = JsonSerializer.Deserialize<AuctionDetailsVM>(getdeliveryrequestforconfirm.Content.ReadAsStringAsync().Result);
+                                var requestIds = string.Join(",", getdeliveryrequestforconfirmResult.Cars.Select(c => c.DeliveryRequestId.ToString())?.ToList() ?? new List<string>());
+
+
+                                string confirmdeliveryrequestAPIUrl = $"checkout/cars/confirmdeliveryrequest?authtoken={UserAuthToken[webHookMessage.from]}&source=androidphone&InvoiceID={UserAuctionDetails[webHookMessage.from].SOPId}&deliveryRequestIds={requestIds}";
+                                var confirmdeliveryrequest = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, confirmdeliveryrequestAPIUrl);
+                                var confirmdeliveryrequestResult = JsonSerializer.Deserialize<object>(confirmdeliveryrequest.Content.ReadAsStringAsync().Result);
 
                             }
                             WebHookHelper.sendTXTMsg(webHookMessage.from, message);
 
-                            ChatBot(UserAuthToken[webHookMessage.from], UserAuctionId[webHookMessage.from], webHookMessage.from);
+                            ChatBot(UserAuthToken[webHookMessage.from], UserAuctionId[webHookMessage.from], webHookMessage.from, false, true);
 
                             break;
                         }
