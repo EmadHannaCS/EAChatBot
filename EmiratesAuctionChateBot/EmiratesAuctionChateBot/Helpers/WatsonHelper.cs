@@ -3,6 +3,7 @@ using IBM.Cloud.SDK.Core.Authentication.Iam;
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Watson.Assistant.v2;
 using IBM.Watson.Assistant.v2.Model;
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 
@@ -34,6 +35,8 @@ namespace EmiratesAuctionChateBot.Helpers
 
         public MessageResponse Consume(string phone, string Text = "", bool isStart = false)
         {
+            Text = toEnglishNumber(Text);
+
             DetailedResponse<MessageResponse> messageResponse;
             assistant.SetServiceUrl(ApiUrl);
             assistant.DisableSslVerification(true);
@@ -68,6 +71,28 @@ namespace EmiratesAuctionChateBot.Helpers
 
             return watsonResponse;
 
+        }
+
+        private string toEnglishNumber(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return input;
+
+
+            string EnglishNumbers = "";
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (Char.IsDigit(input[i]))
+                {
+                    EnglishNumbers += char.GetNumericValue(input, i);
+                }
+                else
+                {
+                    EnglishNumbers += input[i].ToString();
+                }
+            }
+            return EnglishNumbers;
         }
     }
 }
