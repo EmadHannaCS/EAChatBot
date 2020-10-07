@@ -183,6 +183,7 @@ namespace EmiratesAuctionChateBot.Controllers
                 {
                     return null;
                 }
+                webHookMessage.text = _watsonHelper.ToEnglishNumber(webHookMessage.text);
                 var userStep = _sessionsManager.GetSession(webHookMessage.from)?.LatestResponseStep;
                 switch (userStep)
                 {
