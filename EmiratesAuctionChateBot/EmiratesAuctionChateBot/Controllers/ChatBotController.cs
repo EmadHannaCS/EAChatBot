@@ -29,6 +29,8 @@ namespace EmiratesAuctionChateBot.Controllers
         private static Dictionary<string, AuctionDetailsVM> UserAuctionDetails = new Dictionary<string, AuctionDetailsVM>();
         private static Dictionary<string, MessageResponse> UserWatsonResult = new Dictionary<string, MessageResponse>();
         private static Dictionary<string, string> UserSelectedEmirate = new Dictionary<string, string>();
+        private static Dictionary<string, bool> UserInLocationStep = new Dictionary<string, bool>();//to handle multi whatsapp msg location
+
         private static Dictionary<string, int> UserCarNum = new Dictionary<string, int>();
         private readonly IWatsonHelper _watsonHelper;
         private readonly IConfiguration _config;
@@ -68,6 +70,7 @@ namespace EmiratesAuctionChateBot.Controllers
 
                 UserAuctionId[phone] = auctionId;
                 UserAuthToken[phone] = authToken;
+                UserInLocationStep[phone] = false;
 
                 string APIUrl = $"checkout/cars/getauctiondetails?auctionid={auctionId}&authtoken={authToken}&source = androidphone";
 
@@ -260,8 +263,9 @@ namespace EmiratesAuctionChateBot.Controllers
 
                     case 3:
                         {
-                            if (webHookMessage.text.Contains("https://maps.google.com/maps?q="))
+                            if (webHookMessage.text.Contains("https://maps.google.com/maps?q=") && !UserInLocationStep[webHookMessage.from])
                             {
+                                UserInLocationStep[webHookMessage.from] = true;
                                 var locationText = WebUtility.UrlDecode(webHookMessage.text);
                                 var splits = locationText.Split(new string[] { "?q=", "&" }, options: StringSplitOptions.RemoveEmptyEntries);
                                 var locationLatLong = splits[1];
@@ -289,18 +293,28 @@ namespace EmiratesAuctionChateBot.Controllers
                                     StreetAddressEn = adressDetails.results.FirstOrDefault(c => c.field_id == "StreetAddressEn")?.value,
                                 };
 
+                                if (recoveryPrice.CountryId == 0 || string.IsNullOrWhiteSpace(UserAuctionDetails[webHookMessage.from].CheckoutDetails.AdressDetails.CityId))
+                                {
+                                    UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from);
+                                    var error = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
+                                    WebHookHelper.sendTXTMsg(webHookMessage.from, error);
+                                    break;
+                                }
+
                                 UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, "1");
                                 var message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
                                 WebHookHelper.sendTXTMsg(webHookMessage.from, message);
                                 _sessionsManager.UpdateSessionStep(webHookMessage.from);
                             }
-                            else
+                            else if (!UserInLocationStep[webHookMessage.from])
                             {
+                                UserInLocationStep[webHookMessage.from] = true;
                                 UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from);
                                 var message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
                                 WebHookHelper.sendTXTMsg(webHookMessage.from, message);
 
                             }
+                            UserInLocationStep[webHookMessage.from] = false;
                             break;
                         }
 
