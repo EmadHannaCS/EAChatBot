@@ -39,7 +39,6 @@ namespace EmiratesAuctionChateBot.Helpers
 
         public MessageResponse Consume(string phone, string Text = "", bool isStart = false)
         {
-            Text = toEnglishNumber(Text);
 
             DetailedResponse<MessageResponse> messageResponse;
             assistant.SetServiceUrl(ApiUrl);
@@ -77,7 +76,7 @@ namespace EmiratesAuctionChateBot.Helpers
 
         }
 
-        private string toEnglishNumber(string input)
+        public string ToEnglishNumber(string input)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return input;

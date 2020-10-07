@@ -47,6 +47,7 @@ namespace Helpers
                 catch (Exception ex)
                 {
                     LogHelper.LogException(ex);
+                    throw ex;
                 }
                 return Res;
             }
