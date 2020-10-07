@@ -3,6 +3,7 @@ using IBM.Cloud.SDK.Core.Authentication.Iam;
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Watson.Assistant.v2;
 using IBM.Watson.Assistant.v2.Model;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
@@ -11,26 +12,29 @@ namespace EmiratesAuctionChateBot.Helpers
 {
     public class WatsonHelper : IWatsonHelper
     {
-        private const string ApiKey = "83lOPBncWMlhvCPSEmFsGKmI4bMZP0SV5Re4RKTw8SrH";
-        private const string ApiUrl = "https://api.eu-de.assistant.watson.cloud.ibm.com/instances/176bf4ac-aab9-4c30-9d49-f87ba0ad4883";
-        private const string AssistantId = "a725d387-c5c7-4ced-bf76-65e249aa7412";
+        private readonly string ApiKey = string.Empty;
+        private readonly string ApiUrl = string.Empty;
+        AssistantService assistant;
+        private readonly string AssistantId = string.Empty;
         private readonly ISessionsManager _sessionsManager;
+        private readonly IConfiguration _config;
 
 
-        public WatsonHelper(ISessionsManager sessionsManager)
+        public WatsonHelper(ISessionsManager sessionsManager, IConfiguration config)
         {
             _sessionsManager = sessionsManager;
-
+            _config = config;
+            ApiUrl = _config.GetSection("Watson").GetValue<string>("APIUrl");
+            ApiKey = _config.GetSection("Watson").GetValue<string>("APIKey");
+            AssistantId = _config.GetSection("Watson").GetValue<string>("AssistantId");
+            IamAuthenticator authenticator = new IamAuthenticator(apikey: ApiKey);
+            assistant = new AssistantService("2020-09-29", authenticator);
         }
 
 
-        private static IamAuthenticator authenticator = new IamAuthenticator(
-      apikey: ApiKey
-      );
 
-        private static AssistantService assistant = new AssistantService("2020-09-29", authenticator);
 
-        private static Dictionary<string, DetailedResponse<SessionResponse>> UserSession = new Dictionary<string, DetailedResponse<SessionResponse>>();
+        private Dictionary<string, DetailedResponse<SessionResponse>> UserSession = new Dictionary<string, DetailedResponse<SessionResponse>>();
 
 
         public MessageResponse Consume(string phone, string Text = "", bool isStart = false)
