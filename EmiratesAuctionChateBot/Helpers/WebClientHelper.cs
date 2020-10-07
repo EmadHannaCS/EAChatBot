@@ -13,7 +13,10 @@ namespace Helpers
         public static HttpResponseMessage Consume(string baseurl, HttpMethod method, string relativeUrl, HttpContent content = null,
            string jsonObj = null, string lang = "", string basicAuthUser = "", string basicAuthPassword = "")
         {
-            using (var client = new HttpClient())
+            using (var client = new HttpClient(new HttpClientHandler
+            {
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+            }))
             {
                 //client.Timeout.Add(new TimeSpan(0, 3, 0));
                 client.BaseAddress = new Uri(baseurl);
