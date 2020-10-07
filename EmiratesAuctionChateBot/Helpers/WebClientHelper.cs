@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -60,6 +61,8 @@ namespace Helpers
                     phone = phone.Substring(1);
                 if (phone.StartsWith("00"))
                     phone = phone.Substring(2);
+
+                phone = string.Concat(phone.Where(c => !char.IsWhiteSpace(c)));
             }
             return phone;
         }
