@@ -202,7 +202,7 @@ namespace EmiratesAuctionChateBot.Controllers
                                     multiPartFormData.Add(new StringContent(UserAuthToken[webHookMessage.from]), "authtoken");
                                     multiPartFormData.Add(new StringContent(car.AuctionInfo.lot.ToString()), "ciaid");
                                     multiPartFormData.Add(new StringContent(Emirates.GetValueOrDefault(int.Parse(webHookMessage.text)).Key.ToString()), "hayazaOriginId");
-                                    //var result = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, "carsonline/updatehyazaorigin?source=androidphone", multiPartFormData);
+                                    var result = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, "carsonline/updatehyazaorigin?source=androidphone", multiPartFormData);
 
                                 }
 
