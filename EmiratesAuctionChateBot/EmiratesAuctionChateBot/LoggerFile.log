@@ -2,3 +2,212 @@
 2020-10-12 12:17:05,994 [24] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.FindEntry(TKey key)
    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
    at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in D:\Work\EAuction\Git\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 197
+2020-10-12 13:19:20,584 [6] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:19:20,618 [6] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& readStack, JsonReaderException ex)
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+   at System.Text.Json.JsonSerializer.ReadCore(Type returnType, JsonSerializerOptions options, Utf8JsonReader& reader)
+   at System.Text.Json.JsonSerializer.Deserialize(String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(String authToken, String auctionId, String phone, Boolean firstCall, Boolean isEnd) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 84
+2020-10-12 13:19:20,619 [6] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:19:20,619 [6] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadFirstToken(Byte first)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+2020-10-12 13:21:09,663 [27] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:21:09,663 [27] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& readStack, JsonReaderException ex)
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+   at System.Text.Json.JsonSerializer.ReadCore(Type returnType, JsonSerializerOptions options, Utf8JsonReader& reader)
+   at System.Text.Json.JsonSerializer.Deserialize(String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(String authToken, String auctionId, String phone, Boolean firstCall, Boolean isEnd) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 84
+2020-10-12 13:21:09,663 [27] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:21:09,663 [27] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadFirstToken(Byte first)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+2020-10-12 13:21:39,283 [30] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:21:39,283 [30] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& readStack, JsonReaderException ex)
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+   at System.Text.Json.JsonSerializer.ReadCore(Type returnType, JsonSerializerOptions options, Utf8JsonReader& reader)
+   at System.Text.Json.JsonSerializer.Deserialize(String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(String authToken, String auctionId, String phone, Boolean firstCall, Boolean isEnd) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 84
+2020-10-12 13:21:39,283 [30] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:21:39,283 [30] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadFirstToken(Byte first)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+2020-10-12 13:22:02,997 [37] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:22:02,997 [37] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& readStack, JsonReaderException ex)
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+   at System.Text.Json.JsonSerializer.ReadCore(Type returnType, JsonSerializerOptions options, Utf8JsonReader& reader)
+   at System.Text.Json.JsonSerializer.Deserialize(String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(String authToken, String auctionId, String phone, Boolean firstCall, Boolean isEnd) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 84
+2020-10-12 13:22:02,998 [37] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:22:02,998 [37] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadFirstToken(Byte first)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+2020-10-12 13:26:35,735 [57] ERROR Helpers.LogHelper - Exception Msg: One or more errors occurred. (The API query failed with status code BadRequest: Bad Request | x-global-transaction-id: 62f04b43-c027-4921-a5fd-de03203571af | error: {"error":"Invalid Request Body","errors":[{"message":"text can not contain the following characters: tab, new line, carriage return.","path":"/input/text"}],"code":400}) (The API query failed with status code BadRequest: Bad Request | x-global-transaction-id: 62f04b43-c027-4921-a5fd-de03203571af | error: {"error":"Invalid Request Body","errors":[{"message":"text can not contain the following characters: tab, new line, carriage return.","path":"/input/text"}],"code":400})
+2020-10-12 13:26:35,735 [57] ERROR Helpers.LogHelper - Exception StackTrace:    at IBM.Watson.Assistant.v2.AssistantService.Message(String assistantId, String sessionId, MessageInput input, MessageContext context)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.Consume(String phone, String Text, Boolean isStart, Boolean isNormalChat) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 72
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 235
+2020-10-12 13:26:35,736 [57] ERROR Helpers.LogHelper - Exception Msg: The API query failed with status code BadRequest: Bad Request | x-global-transaction-id: 62f04b43-c027-4921-a5fd-de03203571af | error: {"error":"Invalid Request Body","errors":[{"message":"text can not contain the following characters: tab, new line, carriage return.","path":"/input/text"}],"code":400}
+2020-10-12 13:26:35,736 [57] ERROR Helpers.LogHelper - Exception StackTrace:    at IBM.Cloud.SDK.Core.Http.Filters.ErrorFilter.OnResponse(IResponse response, HttpResponseMessage responseMessage)
+   at IBM.Cloud.SDK.Core.Http.Request.GetResponse(Task`1 request)
+   at IBM.Cloud.SDK.Core.Http.Request.AsMessage()
+   at IBM.Cloud.SDK.Core.Http.Request.As[T]()
+2020-10-12 13:28:48,873 [64] ERROR Helpers.LogHelper - Exception Msg: One or more errors occurred. (The API query failed with status code BadRequest: Bad Request | x-global-transaction-id: 7bdd0f17-ae48-48cc-9d18-ad16a9d98001 | error: {"error":"Invalid Request Body","errors":[{"message":"text can not contain the following characters: tab, new line, carriage return.","path":"/input/text"}],"code":400}) (The API query failed with status code BadRequest: Bad Request | x-global-transaction-id: 7bdd0f17-ae48-48cc-9d18-ad16a9d98001 | error: {"error":"Invalid Request Body","errors":[{"message":"text can not contain the following characters: tab, new line, carriage return.","path":"/input/text"}],"code":400})
+2020-10-12 13:28:48,873 [64] ERROR Helpers.LogHelper - Exception StackTrace:    at IBM.Watson.Assistant.v2.AssistantService.Message(String assistantId, String sessionId, MessageInput input, MessageContext context)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.Consume(String phone, String Text, Boolean isStart, Boolean isNormalChat) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 72
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 235
+2020-10-12 13:28:48,874 [64] ERROR Helpers.LogHelper - Exception Msg: The API query failed with status code BadRequest: Bad Request | x-global-transaction-id: 7bdd0f17-ae48-48cc-9d18-ad16a9d98001 | error: {"error":"Invalid Request Body","errors":[{"message":"text can not contain the following characters: tab, new line, carriage return.","path":"/input/text"}],"code":400}
+2020-10-12 13:28:48,874 [64] ERROR Helpers.LogHelper - Exception StackTrace:    at IBM.Cloud.SDK.Core.Http.Filters.ErrorFilter.OnResponse(IResponse response, HttpResponseMessage responseMessage)
+   at IBM.Cloud.SDK.Core.Http.Request.GetResponse(Task`1 request)
+   at IBM.Cloud.SDK.Core.Http.Request.AsMessage()
+   at IBM.Cloud.SDK.Core.Http.Request.As[T]()
+2020-10-12 13:35:49,604 [19] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:35:49,610 [19] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& readStack, JsonReaderException ex)
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+   at System.Text.Json.JsonSerializer.ReadCore(Type returnType, JsonSerializerOptions options, Utf8JsonReader& reader)
+   at System.Text.Json.JsonSerializer.Deserialize(String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(String authToken, String auctionId, String phone, Boolean firstCall, Boolean isEnd) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 84
+2020-10-12 13:35:49,611 [19] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:35:49,611 [19] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadFirstToken(Byte first)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+2020-10-12 13:36:25,130 [24] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:36:25,130 [24] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& readStack, JsonReaderException ex)
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+   at System.Text.Json.JsonSerializer.ReadCore(Type returnType, JsonSerializerOptions options, Utf8JsonReader& reader)
+   at System.Text.Json.JsonSerializer.Deserialize(String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(String authToken, String auctionId, String phone, Boolean firstCall, Boolean isEnd) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 84
+2020-10-12 13:36:25,130 [24] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:36:25,130 [24] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadFirstToken(Byte first)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+2020-10-12 13:37:41,466 [30] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:37:41,466 [30] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& readStack, JsonReaderException ex)
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+   at System.Text.Json.JsonSerializer.ReadCore(Type returnType, JsonSerializerOptions options, Utf8JsonReader& reader)
+   at System.Text.Json.JsonSerializer.Deserialize(String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(String authToken, String auctionId, String phone, Boolean firstCall, Boolean isEnd) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 84
+2020-10-12 13:37:41,467 [30] ERROR Helpers.LogHelper - Exception Msg: 'T' is an invalid start of a value. LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 13:37:41,467 [30] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadFirstToken(Byte first)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+2020-10-12 14:07:17,206 [20] ERROR Helpers.LogHelper - Exception Msg: '<' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 14:07:17,214 [20] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& readStack, JsonReaderException ex)
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+   at System.Text.Json.JsonSerializer.ReadCore(Type returnType, JsonSerializerOptions options, Utf8JsonReader& reader)
+   at System.Text.Json.JsonSerializer.Deserialize(String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(String authToken, String auctionId, String phone, Boolean firstCall, Boolean isEnd) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 84
+2020-10-12 14:07:17,215 [20] ERROR Helpers.LogHelper - Exception Msg: '<' is an invalid start of a value. LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 14:07:17,215 [20] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadFirstToken(Byte first)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+2020-10-12 14:07:57,504 [25] ERROR Helpers.LogHelper - Exception Msg: '<' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 14:07:57,505 [25] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& readStack, JsonReaderException ex)
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+   at System.Text.Json.JsonSerializer.ReadCore(Type returnType, JsonSerializerOptions options, Utf8JsonReader& reader)
+   at System.Text.Json.JsonSerializer.Deserialize(String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(String authToken, String auctionId, String phone, Boolean firstCall, Boolean isEnd) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 84
+2020-10-12 14:07:57,506 [25] ERROR Helpers.LogHelper - Exception Msg: '<' is an invalid start of a value. LineNumber: 0 | BytePositionInLine: 0.
+2020-10-12 14:07:57,506 [25] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadFirstToken(Byte first)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+2020-10-12 14:15:51,463 [17] ERROR Helpers.LogHelper - Exception Msg: The given key '201004953479' was not present in the dictionary.
+2020-10-12 14:15:51,469 [17] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 197
+2020-10-12 14:16:18,184 [22] ERROR Helpers.LogHelper - Exception Msg: The given key '201004953479' was not present in the dictionary.
+2020-10-12 14:16:18,185 [22] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 217
+2020-10-12 14:16:32,277 [23] ERROR Helpers.LogHelper - Exception Msg: The given key '201004953479' was not present in the dictionary.
+2020-10-12 14:16:32,277 [23] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 217
+2020-10-12 14:16:47,973 [24] ERROR Helpers.LogHelper - Exception Msg: The given key '201004953479' was not present in the dictionary.
+2020-10-12 14:16:47,973 [24] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 217
+2020-10-12 14:16:48,089 [22] ERROR Helpers.LogHelper - Exception Msg: The given key '201004953479' was not present in the dictionary.
+2020-10-12 14:16:48,089 [22] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 217
+2020-10-12 14:17:59,334 [28] ERROR Helpers.LogHelper - Exception Msg: The given key '201004953479' was not present in the dictionary.
+2020-10-12 14:17:59,335 [28] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 217
+2020-10-12 14:18:52,979 [31] ERROR Helpers.LogHelper - Exception Msg: The given key '201129551310' was not present in the dictionary.
+2020-10-12 14:18:52,980 [31] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 197
+2020-10-12 14:18:57,047 [32] ERROR Helpers.LogHelper - Exception Msg: The given key '201129551310' was not present in the dictionary.
+2020-10-12 14:18:57,047 [32] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 217
+2020-10-12 14:53:56,964 [21] ERROR Helpers.LogHelper - Exception Msg: The given key '201285416464' was not present in the dictionary.
+2020-10-12 14:53:56,971 [21] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 220
+2020-10-12 15:01:04,027 [20] ERROR Helpers.LogHelper - Exception Msg: The given key '201285416464' was not present in the dictionary.
+2020-10-12 15:01:04,033 [20] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 221
+2020-10-12 15:16:21,955 [44] ERROR Helpers.LogHelper - Exception Msg: One or more errors occurred. (A task was canceled.)
+2020-10-12 15:16:21,962 [44] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Helpers.WebClientHelper.Consume(String baseurl, HttpMethod method, String relativeUrl, HttpContent content, String jsonObj, String lang, String basicAuthUser, String basicAuthPassword) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\Helpers\WebClientHelper.cs:line 45
+2020-10-12 15:16:21,962 [44] ERROR Helpers.LogHelper - Exception Msg: A task was canceled.
+2020-10-12 15:16:21,962 [44] ERROR Helpers.LogHelper - Exception StackTrace: 
+2020-10-12 15:16:50,108 [44] ERROR Helpers.LogHelper - Exception Msg: One or more errors occurred. (A task was canceled.)
+2020-10-12 15:16:50,108 [44] ERROR Helpers.LogHelper - Exception StackTrace:    at Helpers.WebClientHelper.Consume(String baseurl, HttpMethod method, String relativeUrl, HttpContent content, String jsonObj, String lang, String basicAuthUser, String basicAuthPassword) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\Helpers\WebClientHelper.cs:line 50
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 355
+2020-10-12 15:16:50,108 [44] ERROR Helpers.LogHelper - Exception Msg: A task was canceled.
+2020-10-12 15:16:50,108 [44] ERROR Helpers.LogHelper - Exception StackTrace: 
+2020-10-12 15:16:50,132 [59] ERROR Helpers.LogHelper - Exception Msg: One or more errors occurred. (Error while copying content to a stream.)
+2020-10-12 15:16:50,132 [59] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Helpers.WebClientHelper.Consume(String baseurl, HttpMethod method, String relativeUrl, HttpContent content, String jsonObj, String lang, String basicAuthUser, String basicAuthPassword) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\Helpers\WebClientHelper.cs:line 45
+2020-10-12 15:16:50,133 [59] ERROR Helpers.LogHelper - Exception Msg: Error while copying content to a stream.
+2020-10-12 15:16:50,133 [59] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Net.Http.HttpContent.LoadIntoBufferAsyncCore(Task serializeToStreamTask, MemoryStream tempBuffer)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+2020-10-12 15:16:50,133 [59] ERROR Helpers.LogHelper - Exception Msg: The response ended prematurely.
+2020-10-12 15:16:50,133 [59] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Net.Http.HttpConnection.FillAsync()
+   at System.Net.Http.HttpConnection.CopyToContentLengthAsync(Stream destination, UInt64 length, Int32 bufferSize, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnection.ContentLengthReadStream.CompleteCopyToAsync(Task copyTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionResponseContent.SerializeToStreamAsync(Stream stream, TransportContext context, CancellationToken cancellationToken)
+   at System.Net.Http.HttpContent.LoadIntoBufferAsyncCore(Task serializeToStreamTask, MemoryStream tempBuffer)
+2020-10-12 15:18:52,023 [59] ERROR Helpers.LogHelper - Exception Msg: One or more errors occurred. (Error while copying content to a stream.)
+2020-10-12 15:18:52,024 [59] ERROR Helpers.LogHelper - Exception StackTrace:    at Helpers.WebClientHelper.Consume(String baseurl, HttpMethod method, String relativeUrl, HttpContent content, String jsonObj, String lang, String basicAuthUser, String basicAuthPassword) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\Helpers\WebClientHelper.cs:line 50
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 355
+2020-10-12 15:18:52,024 [59] ERROR Helpers.LogHelper - Exception Msg: Error while copying content to a stream.
+2020-10-12 15:18:52,024 [59] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Net.Http.HttpContent.LoadIntoBufferAsyncCore(Task serializeToStreamTask, MemoryStream tempBuffer)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+2020-10-12 15:18:52,024 [59] ERROR Helpers.LogHelper - Exception Msg: The response ended prematurely.
+2020-10-12 15:18:52,024 [59] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Net.Http.HttpConnection.FillAsync()
+   at System.Net.Http.HttpConnection.CopyToContentLengthAsync(Stream destination, UInt64 length, Int32 bufferSize, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnection.ContentLengthReadStream.CompleteCopyToAsync(Task copyTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionResponseContent.SerializeToStreamAsync(Stream stream, TransportContext context, CancellationToken cancellationToken)
+   at System.Net.Http.HttpContent.LoadIntoBufferAsyncCore(Task serializeToStreamTask, MemoryStream tempBuffer)

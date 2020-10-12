@@ -25,13 +25,14 @@ namespace EmiratesAuctionChateBot.Controllers
         private readonly string APIBaseUrl = string.Empty;
 
         private readonly ISessionsManager _sessionsManager;
-        private static List<KeyValuePair<int, string>> choises = new List<KeyValuePair<int, string>>();
+        private static Dictionary<string, List<KeyValuePair<int, string>>> choises = new Dictionary<string, List<KeyValuePair<int, string>>>();
         private static Dictionary<string, AuctionDetailsVM> UserAuctionDetails = new Dictionary<string, AuctionDetailsVM>();
         private static Dictionary<string, MessageResponse> UserWatsonResult = new Dictionary<string, MessageResponse>();
         private static Dictionary<string, string> UserSelectedEmirate = new Dictionary<string, string>();
         private static Dictionary<string, bool> UserAlreadyInStep = new Dictionary<string, bool>();//to handle multi whatsapp msg in same time
         private static Dictionary<string, bool> UserIsInNormalChat = new Dictionary<string, bool>();
         private static Dictionary<string, bool> isStartChat = new Dictionary<string, bool>();
+
 
         private static Dictionary<string, int> UserCarNum = new Dictionary<string, int>();
         private readonly IWatsonHelper _watsonHelper;
@@ -169,11 +170,11 @@ namespace EmiratesAuctionChateBot.Controllers
                 if (isEnd || string.IsNullOrEmpty(message))
                 {
                     UserIsInNormalChat[phone] = true;
+                    _sessionsManager.UpdateSessionStep(phone, 0);
                 }
                 else
                 {
                     UserIsInNormalChat[phone] = false;
-
                 }
 
             }
@@ -194,6 +195,16 @@ namespace EmiratesAuctionChateBot.Controllers
 
             try
             {
+                if (!UserAlreadyInStep.ContainsKey(webHookMessage.from))
+                    UserAlreadyInStep[webHookMessage.from] = false;
+
+                if (!UserIsInNormalChat.ContainsKey(webHookMessage.from))
+                    UserIsInNormalChat[webHookMessage.from] = true;
+
+
+                if (!choises.ContainsKey(webHookMessage.from))
+                    choises[webHookMessage.from] = new List<KeyValuePair<int, string>>();
+
                 if (!UserAlreadyInStep[webHookMessage.from])
                 {
                     UserAlreadyInStep[webHookMessage.from] = true;
@@ -207,24 +218,24 @@ namespace EmiratesAuctionChateBot.Controllers
 
                     isStartChat[webHookMessage.from] = true;
 
-                    if (userStep == 0)
+                    if (userStep > 0)
                     {
                         isStartChat[webHookMessage.from] = false;
 
                     }
 
 
-                    if (userStep == null || userStep == 0)
+                    if (UserIsInNormalChat[webHookMessage.from])
                     {
-                        if (choises.Count > 1)
+                        if (choises[webHookMessage.from].Count > 1)
                         {
                             if (Char.IsDigit(webHookMessage.text, 0))
                             {
-                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, choises.FirstOrDefault(c => c.Key == int.Parse(webHookMessage.text)).Value.Trim(), isStartChat[webHookMessage.from], true);
+                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, choises[webHookMessage.from].FirstOrDefault(c => c.Key == int.Parse(webHookMessage.text)).Value.Trim(), isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
                             }
                             else
                             {
-                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text.Trim(), isStartChat[webHookMessage.from], true);
+                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text.Trim(), isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
                             }
 
                             choises.Clear();
@@ -232,7 +243,7 @@ namespace EmiratesAuctionChateBot.Controllers
                         else
                         {
 
-                            UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text, isStartChat[webHookMessage.from], true);
+                            UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text, isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
                         }
 
                         string message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
@@ -241,10 +252,11 @@ namespace EmiratesAuctionChateBot.Controllers
                         WebHookHelper.sendTXTMsg(webHookMessage.from, message);
 
 
-                        choises = _watsonHelper.GetChoises(message);
+                        choises[webHookMessage.from] = _watsonHelper.GetChoises(message);
 
                         isStartChat[webHookMessage.from] = false;
-                        _sessionsManager.UpdateSessionStep(webHookMessage.from, 0);
+                        _sessionsManager.UpdateSessionStep(webHookMessage.from);
+                        return null;
 
 
                     }
