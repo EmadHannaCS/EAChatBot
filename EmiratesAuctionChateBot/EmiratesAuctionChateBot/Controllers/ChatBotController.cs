@@ -455,6 +455,8 @@ namespace EmiratesAuctionChateBot.Controllers
                             }
                             WebHookHelper.sendTXTMsg(webHookMessage.from, message);
 
+                            _sessionsManager.UpdateSessionStep(webHookMessage.from, null);
+
                             ChatBot(UserAuthToken[webHookMessage.from], UserAuctionId[webHookMessage.from], webHookMessage.from, false, true);
 
                             break;
