@@ -103,7 +103,7 @@ namespace EmiratesAuctionChateBot.Controllers
 
                     var send = false;
                     string carOption = "{0} lot# {1} with the price of {2} {3} ";
-                    for (int i = 0; i < UserAuctionDetails[phone].Cars.Count; i++)
+                    for (int i = 0; i < UserAuctionDetails[phone].Cars?.Count; i++)
                     {
                         send = true;
                         var car = UserAuctionDetails[phone].Cars[i];
@@ -117,7 +117,7 @@ namespace EmiratesAuctionChateBot.Controllers
                 message = string.Empty;
                 if (!UserCars.ContainsKey(phone))
                 {
-                    UserCars[phone] = new List<CarVM>(UserAuctionDetails[phone].Cars);
+                    UserCars[phone] = new List<CarVM>(UserAuctionDetails[phone].Cars ?? new List<CarVM>());
                 }
                 var cars = UserCars[phone];
                 var carsCount = cars.Count;
