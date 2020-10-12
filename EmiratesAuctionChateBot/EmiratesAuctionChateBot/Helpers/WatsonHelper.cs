@@ -109,7 +109,7 @@ namespace EmiratesAuctionChateBot.Helpers
             List<KeyValuePair<int, string>> choises = new List<KeyValuePair<int, string>>();
             for (int i = 0; i < message.Length; i++)
             {
-                if (Char.IsDigit(message[i]) && message[i + 2] == '-')
+                if (Char.IsDigit(message[i]) && (message[i + 1] == '-' || message[i + 2] == '-'))
                 {
                     choisesNum.Add(int.Parse(message[i].ToString()));
                 }
