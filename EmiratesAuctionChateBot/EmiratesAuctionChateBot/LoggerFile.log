@@ -1,0 +1,4 @@
+2020-10-12 12:17:05,669 [24] ERROR Helpers.LogHelper - Exception Msg: Value cannot be null. (Parameter 'key')
+2020-10-12 12:17:05,994 [24] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.FindEntry(TKey key)
+   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in D:\Work\EAuction\Git\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 197

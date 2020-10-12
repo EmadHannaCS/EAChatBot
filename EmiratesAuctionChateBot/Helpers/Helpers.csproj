@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="IBM.Watson.Assistant.v2" Version="4.6.0" />
-    <PackageReference Include="log4net" Version="2.0.11" />
+    <PackageReference Include="log4net" Version="2.0.8" />
   </ItemGroup>
 
   <ItemGroup>
