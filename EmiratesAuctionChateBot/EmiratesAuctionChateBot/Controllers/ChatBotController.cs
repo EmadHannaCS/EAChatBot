@@ -25,11 +25,13 @@ namespace EmiratesAuctionChateBot.Controllers
         private readonly string APIBaseUrl = string.Empty;
 
         private readonly ISessionsManager _sessionsManager;
-
+        private static List<KeyValuePair<int, string>> choises = new List<KeyValuePair<int, string>>();
         private static Dictionary<string, AuctionDetailsVM> UserAuctionDetails = new Dictionary<string, AuctionDetailsVM>();
         private static Dictionary<string, MessageResponse> UserWatsonResult = new Dictionary<string, MessageResponse>();
         private static Dictionary<string, string> UserSelectedEmirate = new Dictionary<string, string>();
         private static Dictionary<string, bool> UserInLocationStep = new Dictionary<string, bool>();//to handle multi whatsapp msg location
+        private static Dictionary<string, bool> UserIsInNormalChat = new Dictionary<string, bool>();
+        private static Dictionary<string, bool> isStartChat = new Dictionary<string, bool>();
 
         private static Dictionary<string, int> UserCarNum = new Dictionary<string, int>();
         private readonly IWatsonHelper _watsonHelper;
@@ -66,7 +68,10 @@ namespace EmiratesAuctionChateBot.Controllers
 
             try
             {
+
                 phone = WebClientHelper.HandlePhoneFormat(phone);
+
+                UserIsInNormalChat[phone] = true;
 
                 UserAuctionId[phone] = auctionId;
                 UserAuthToken[phone] = authToken;
@@ -160,6 +165,17 @@ namespace EmiratesAuctionChateBot.Controllers
 
                 }
                 WebHookHelper.sendTXTMsg(phone, message);
+
+                if (isEnd || string.IsNullOrEmpty(message))
+                {
+                    UserIsInNormalChat[phone] = true;
+                }
+                else
+                {
+                    UserIsInNormalChat[phone] = false;
+
+                }
+
             }
             catch (Exception ex)
             {
@@ -185,6 +201,57 @@ namespace EmiratesAuctionChateBot.Controllers
                 }
                 webHookMessage.text = _watsonHelper.ToEnglishNumber(webHookMessage.text);
                 var userStep = _sessionsManager.GetSession(webHookMessage.from)?.LatestResponseStep;
+
+                isStartChat[webHookMessage.from] = true;
+
+                if (userStep == 0)
+                {
+                    isStartChat[webHookMessage.from] = false;
+
+                }
+
+
+                if (userStep == null || userStep == 0)
+                {
+                    if (choises.Count > 1)
+                    {
+                        if (Char.IsDigit(webHookMessage.text, 0))
+                        {
+                            UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, choises.FirstOrDefault(c => c.Key == int.Parse(webHookMessage.text)).Value.Trim(), isStartChat[webHookMessage.from], true);
+                        }
+                        else
+                        {
+                            UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text.Trim(), isStartChat[webHookMessage.from], true);
+                        }
+
+                        choises.Clear();
+                    }
+                    else
+                    {
+
+                        UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text, isStartChat[webHookMessage.from], true);
+                    }
+
+                    string message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
+
+
+                    WebHookHelper.sendTXTMsg(webHookMessage.from, message);
+
+
+                    choises = _watsonHelper.GetChoises(message);
+
+                    isStartChat[webHookMessage.from] = false;
+                    _sessionsManager.UpdateSessionStep(webHookMessage.from, 0);
+
+
+                }
+
+
+
+
+
+
+
                 switch (userStep)
                 {
                     case 1:
@@ -409,5 +476,7 @@ namespace EmiratesAuctionChateBot.Controllers
             }
             return null;
         }
+
+
     }
 }

@@ -16,6 +16,7 @@ namespace EmiratesAuctionChateBot.Helpers
         private readonly string ApiUrl = string.Empty;
         AssistantService assistant;
         private readonly string AssistantId = string.Empty;
+        private readonly string ArabicAssistantId = string.Empty;
         private readonly ISessionsManager _sessionsManager;
         private readonly IConfiguration _config;
 
@@ -27,6 +28,7 @@ namespace EmiratesAuctionChateBot.Helpers
             ApiUrl = _config.GetSection("Watson").GetValue<string>("APIUrl");
             ApiKey = _config.GetSection("Watson").GetValue<string>("APIKey");
             AssistantId = _config.GetSection("Watson").GetValue<string>("AssistantId");
+            ArabicAssistantId = _config.GetSection("Watson").GetValue<string>("ArabicAssitantId");
             IamAuthenticator authenticator = new IamAuthenticator(apikey: ApiKey);
             assistant = new AssistantService("2020-09-29", authenticator);
         }
@@ -34,10 +36,10 @@ namespace EmiratesAuctionChateBot.Helpers
 
 
 
-        private Dictionary<string, DetailedResponse<SessionResponse>> UserSession = new Dictionary<string, DetailedResponse<SessionResponse>>();
+        private static Dictionary<string, DetailedResponse<SessionResponse>> UserSession = new Dictionary<string, DetailedResponse<SessionResponse>>();
 
 
-        public MessageResponse Consume(string phone, string Text = "", bool isStart = false)
+        public MessageResponse Consume(string phone, string Text = "", bool isStart = false, bool isNormalChat = false)
         {
 
             DetailedResponse<MessageResponse> messageResponse;
@@ -47,13 +49,13 @@ namespace EmiratesAuctionChateBot.Helpers
             var sessionId = string.Empty;
             if (isStart)
             {
-                UserSession[phone] = assistant.CreateSession(AssistantId);
+                UserSession[phone] = assistant.CreateSession(isNormalChat ? ArabicAssistantId : AssistantId);
                 _sessionsManager.SetSession(phone, UserSession[phone].Result.SessionId);
 
             }
             else if (UserSession[phone] == null)
             {
-                UserSession[phone] = assistant.CreateSession(AssistantId);
+                UserSession[phone] = assistant.CreateSession(isNormalChat ? ArabicAssistantId : AssistantId);
 
                 sessionId = _sessionsManager.GetSession(phone)?.LastSessionId;
                 if (string.IsNullOrWhiteSpace(sessionId))
@@ -67,7 +69,7 @@ namespace EmiratesAuctionChateBot.Helpers
                 }
             }
 
-            messageResponse = assistant.Message(AssistantId, UserSession[phone].Result.SessionId, new MessageInput() { Text = Text });
+            messageResponse = assistant.Message(isNormalChat ? ArabicAssistantId : AssistantId, UserSession[phone].Result.SessionId, new MessageInput() { Text = Text });
 
             MessageResponse watsonResponse = messageResponse.Result;
 
@@ -96,6 +98,31 @@ namespace EmiratesAuctionChateBot.Helpers
                 }
             }
             return EnglishNumbers;
+        }
+
+
+
+
+        public List<KeyValuePair<int, string>> GetChoises(string message)
+        {
+            List<int> choisesNum = new List<int>();
+            List<KeyValuePair<int, string>> choises = new List<KeyValuePair<int, string>>();
+            for (int i = 0; i < message.Length; i++)
+            {
+                if (Char.IsDigit(message[i]) && message[i + 2] == '-')
+                {
+                    choisesNum.Add(int.Parse(message[i].ToString()));
+                }
+            }
+
+            for (int i = 0; i < choisesNum.Count; i++)
+            {
+                int FirstIndex = message.IndexOf(choisesNum[i].ToString()) + 2;
+                int LastIndex = i == choisesNum.Count - 1 ? 0 : message.IndexOf(choisesNum[i + 1].ToString());
+                choises.Add(new KeyValuePair<int, string>(choisesNum[i], message.Substring(FirstIndex, LastIndex == 0 ? message.Length - 1 - FirstIndex : LastIndex - FirstIndex)));
+            }
+
+            return choises;
         }
     }
 }

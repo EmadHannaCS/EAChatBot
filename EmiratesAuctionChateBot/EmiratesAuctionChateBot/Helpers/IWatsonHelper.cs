@@ -7,8 +7,8 @@ namespace EmiratesAuctionChateBot.Helpers
 {
     public interface IWatsonHelper
     {
-        MessageResponse Consume(string phone, string Text = "", bool isStart = false);
+        MessageResponse Consume(string phone, string Text = "", bool isStart = false, bool isNormalChat = false);
         string ToEnglishNumber(string input);
-
+        List<KeyValuePair<int, string>> GetChoises(string message);
     }
 }
