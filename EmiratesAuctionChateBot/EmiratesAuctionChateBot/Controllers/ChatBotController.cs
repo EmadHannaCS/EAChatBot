@@ -25,7 +25,7 @@ namespace EmiratesAuctionChateBot.Controllers
         private readonly string APIBaseUrl = string.Empty;
 
         private readonly ISessionsManager _sessionsManager;
-        private static Dictionary<string, List<KeyValuePair<int, string>>> choises = new Dictionary<string, List<KeyValuePair<int, string>>>();
+        private static Dictionary<string, Dictionary<int, string>> choises = new Dictionary<string, Dictionary<int, string>> ();
         private static Dictionary<string, AuctionDetailsVM> UserAuctionDetails = new Dictionary<string, AuctionDetailsVM>();
         private static Dictionary<string, MessageResponse> UserWatsonResult = new Dictionary<string, MessageResponse>();
         private static Dictionary<string, string> UserSelectedEmirate = new Dictionary<string, string>();
@@ -203,7 +203,7 @@ namespace EmiratesAuctionChateBot.Controllers
 
 
                 if (!choises.ContainsKey(webHookMessage.from))
-                    choises[webHookMessage.from] = new List<KeyValuePair<int, string>>();
+                    choises[webHookMessage.from] = new Dictionary<int, string>();
 
                 if (!UserAlreadyInStep[webHookMessage.from])
                 {
@@ -231,7 +231,7 @@ namespace EmiratesAuctionChateBot.Controllers
                         {
                             if (Char.IsDigit(webHookMessage.text, 0))
                             {
-                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, choises[webHookMessage.from].FirstOrDefault(c => c.Key == int.Parse(webHookMessage.text)).Value.Trim(), isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
+                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, choises[webHookMessage.from].GetValueOrDefault(int.Parse(webHookMessage.text)).Trim(), isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
                             }
                             else
                             {

@@ -103,13 +103,13 @@ namespace EmiratesAuctionChateBot.Helpers
 
 
 
-        public List<KeyValuePair<int, string>> GetChoises(string message)
+        public Dictionary<int, string> GetChoises(string message)
         {
             List<int> choisesNum = new List<int>();
-            List<KeyValuePair<int, string>> choises = new List<KeyValuePair<int, string>>();
+            Dictionary<int, string> choises = new Dictionary<int, string>();
             for (int i = 0; i < message.Length; i++)
             {
-                if (Char.IsDigit(message[i]) && (message[i + 1] == '-' || message[i + 2] == '-'))
+                if (Char.IsDigit(message[i]) &&  message[i + 1] == '-')
                 {
                     choisesNum.Add(int.Parse(message[i].ToString()));
                 }
@@ -119,7 +119,7 @@ namespace EmiratesAuctionChateBot.Helpers
             {
                 int FirstIndex = message.IndexOf(choisesNum[i].ToString()) + 2;
                 int LastIndex = i == choisesNum.Count - 1 ? 0 : message.IndexOf(choisesNum[i + 1].ToString());
-                choises.Add(new KeyValuePair<int, string>(choisesNum[i], message.Substring(FirstIndex, LastIndex == 0 ? message.Length - 1 - FirstIndex : LastIndex - FirstIndex)));
+                choises.Add(choisesNum[i], message.Substring(FirstIndex, LastIndex == 0 ? message.Length - 1 - FirstIndex : LastIndex - FirstIndex));
             }
 
             return choises;
