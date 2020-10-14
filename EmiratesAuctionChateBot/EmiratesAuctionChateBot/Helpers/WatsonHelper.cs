@@ -1,4 +1,5 @@
 ﻿using BL.Managers;
+using EmiratesAuctionChateBot.Controllers;
 using Helpers;
 using IBM.Cloud.SDK.Core.Authentication.Iam;
 using IBM.Cloud.SDK.Core.Http;
@@ -83,6 +84,7 @@ namespace EmiratesAuctionChateBot.Helpers
                 UserSession[phone] = assistant.CreateSession(isNormalChat ? ArabicAssistantId : AssistantId);
                 _sessionsManager.SetSession(phone, UserSession[phone].Result.SessionId);
                 messageResponse = assistant.Message(isNormalChat ? ArabicAssistantId : AssistantId, UserSession[phone].Result.SessionId, new MessageInput() { Text = Text });
+                ChatBotController.choices[phone].Clear();
                 LogHelper.LogException(ex);
             }
 

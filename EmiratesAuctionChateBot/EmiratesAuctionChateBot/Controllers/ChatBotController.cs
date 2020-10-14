@@ -25,7 +25,7 @@ namespace EmiratesAuctionChateBot.Controllers
         private readonly string APIBaseUrl = string.Empty;
 
         private readonly ISessionsManager _sessionsManager;
-        private static Dictionary<string, Dictionary<int, string>> choises = new Dictionary<string, Dictionary<int, string>>();
+        public static Dictionary<string, Dictionary<int, string>> choices = new Dictionary<string, Dictionary<int, string>>();
         private static Dictionary<string, AuctionDetailsVM> UserAuctionDetails = new Dictionary<string, AuctionDetailsVM>();
         private static Dictionary<string, MessageResponse> UserWatsonResult = new Dictionary<string, MessageResponse>();
         private static Dictionary<string, string> UserSelectedEmirate = new Dictionary<string, string>();
@@ -206,8 +206,8 @@ namespace EmiratesAuctionChateBot.Controllers
                     UserWatsonResult[webHookMessage.from] = new MessageResponse();
 
 
-                if (!choises.ContainsKey(webHookMessage.from))
-                    choises[webHookMessage.from] = new Dictionary<int, string>();
+                if (!choices.ContainsKey(webHookMessage.from))
+                    choices[webHookMessage.from] = new Dictionary<int, string>();
 
                 if (!UserAlreadyInStep[webHookMessage.from])
                 {
@@ -231,18 +231,17 @@ namespace EmiratesAuctionChateBot.Controllers
 
                     if (UserIsInNormalChat[webHookMessage.from])
                     {
-                        if (choises[webHookMessage.from].Count > 1)
+                        if (choices[webHookMessage.from].Count > 1)
                         {
-                            if (Char.IsDigit(webHookMessage.text, 0))
+                            if (Char.IsDigit(webHookMessage.text, 0) && webHookMessage.text != "0")//0 is main menu in watson
                             {
-                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, choises[webHookMessage.from].GetValueOrDefault(int.Parse(webHookMessage.text))?.Trim(), isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
+                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, choices[webHookMessage.from].GetValueOrDefault(int.Parse(webHookMessage.text))?.Trim(), isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
                             }
                             else
                             {
                                 UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text.Trim(), isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
                             }
 
-                            choises.Clear();
                         }
                         else
                         {
@@ -255,8 +254,9 @@ namespace EmiratesAuctionChateBot.Controllers
 
                         WebHookHelper.sendTXTMsg(webHookMessage.from, message);
 
-
-                        choises[webHookMessage.from] = _watsonHelper.GetChoises(message);
+                        var newChoices = _watsonHelper.GetChoises(message);
+                        if (newChoices != null && newChoices.Count > 0)
+                            choices[webHookMessage.from] = newChoices;
 
                         isStartChat[webHookMessage.from] = false;
                         _sessionsManager.UpdateSessionStep(webHookMessage.from);
