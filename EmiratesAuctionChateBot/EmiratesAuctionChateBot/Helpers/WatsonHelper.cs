@@ -1,4 +1,5 @@
 ﻿using BL.Managers;
+using Helpers;
 using IBM.Cloud.SDK.Core.Authentication.Iam;
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Watson.Assistant.v2;
@@ -42,11 +43,15 @@ namespace EmiratesAuctionChateBot.Helpers
         public MessageResponse Consume(string phone, string Text = "", bool isStart = false, bool isNormalChat = false)
         {
 
-            DetailedResponse<MessageResponse> messageResponse;
+            DetailedResponse<MessageResponse> messageResponse = null;
             assistant.SetServiceUrl(ApiUrl);
             assistant.DisableSslVerification(true);
 
             var sessionId = string.Empty;
+            if (!UserSession.ContainsKey(phone))
+            {
+                UserSession[phone] = null;
+            }
             if (isStart)
             {
                 UserSession[phone] = assistant.CreateSession(isNormalChat ? ArabicAssistantId : AssistantId);
@@ -68,10 +73,21 @@ namespace EmiratesAuctionChateBot.Helpers
                     UserSession[phone].Result.SessionId = sessionId;
                 }
             }
+            try
+            {
+                messageResponse = assistant.Message(isNormalChat ? ArabicAssistantId : AssistantId, UserSession[phone].Result.SessionId, new MessageInput() { Text = Text });
 
-            messageResponse = assistant.Message(isNormalChat ? ArabicAssistantId : AssistantId, UserSession[phone].Result.SessionId, new MessageInput() { Text = Text });
+            }
+            catch (Exception ex)
+            {
+                UserSession[phone] = assistant.CreateSession(isNormalChat ? ArabicAssistantId : AssistantId);
+                _sessionsManager.SetSession(phone, UserSession[phone].Result.SessionId);
+                messageResponse = assistant.Message(isNormalChat ? ArabicAssistantId : AssistantId, UserSession[phone].Result.SessionId, new MessageInput() { Text = Text });
+                LogHelper.LogException(ex);
+            }
 
             MessageResponse watsonResponse = messageResponse.Result;
+
 
 
             return watsonResponse;
@@ -106,22 +122,44 @@ namespace EmiratesAuctionChateBot.Helpers
         public Dictionary<int, string> GetChoises(string message)
         {
             List<int> choisesNum = new List<int>();
+            int indexOfLast = 0;
+            int lastIndex = 0;
             Dictionary<int, string> choises = new Dictionary<int, string>();
+            int j = 0;
             for (int i = 0; i < message.Length; i++)
             {
-                if (Char.IsDigit(message[i]) &&  message[i + 1] == '-')
+                if (Char.IsDigit(message[i]) && message[i + 1] == '-')
                 {
                     choisesNum.Add(int.Parse(message[i].ToString()));
+                    int FirstIndex = i + 2;
+                    int indexOfNextNumber = message.LastIndexOf((choisesNum[j] + 1).ToString());
+
+                    if (indexOfNextNumber == -1 && message.LastIndexOf('0') > -1 && message.LastIndexOf('0') > indexOfNextNumber)
+                    {
+                        lastIndex = message.LastIndexOf('0');
+                    }
+
+                    if (choisesNum[j] + 1 == 1)
+                    {
+                        lastIndex = 0;
+                        indexOfNextNumber = -1;
+                    }
+                    if (indexOfNextNumber > -1 && choisesNum[j] + 1 != 1)
+                    {
+                        lastIndex = message.LastIndexOf((choisesNum[j] + 1).ToString()) + 1;
+                    }
+
+
+                    if ((indexOfNextNumber > -1 && message[lastIndex] == '-') || j > 0)
+                    {
+                        indexOfLast = lastIndex == 0 ? message.LastIndexOf(message[message.Length - 1]) + 1 : lastIndex;
+                        choises.Add(choisesNum[j], message.Substring(FirstIndex, indexOfNextNumber == -1 ? indexOfLast - FirstIndex : indexOfNextNumber - FirstIndex));
+                    }
+                    j++;
+                    lastIndex = 0;
+                    indexOfLast = 0;
                 }
             }
-
-            for (int i = 0; i < choisesNum.Count; i++)
-            {
-                int FirstIndex = message.IndexOf(choisesNum[i].ToString()) + 2;
-                int LastIndex = i == choisesNum.Count - 1 ? 0 : message.IndexOf(choisesNum[i + 1].ToString());
-                choises.Add(choisesNum[i], message.Substring(FirstIndex, LastIndex == 0 ? message.Length - 1 - FirstIndex : LastIndex - FirstIndex));
-            }
-
             return choises;
         }
     }

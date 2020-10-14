@@ -9,7 +9,7 @@ namespace Helpers
     public class WebHookHelper
     {
 
-        private const string apikey = "6WF15YRSAYILEAB02XY1";
+        private const string apikey = "L7B9WYYN704C5LJLLRR7";
         private const string baseUrl = "https://panel.rapiwha.com/send_message.php";
 
         public static HttpResponseMessage sendTXTMsg(string phone, string msg)

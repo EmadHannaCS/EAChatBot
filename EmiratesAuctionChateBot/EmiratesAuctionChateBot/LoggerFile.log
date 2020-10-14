@@ -298,3 +298,80 @@
    at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
    at DAL.Repository.Repository`1.FirstOrDefault(Expression`1 predicate) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\DAL\Repository\Repository.cs:line 51
    at BL.Managers.SessionsManager.SetSession(String phone, String sessionId) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\BL\Managers\Sessions\SessionsManager.cs:line 57
+2020-10-13 10:55:13,434 [28] ERROR Helpers.LogHelper - Exception Msg: The given key '201066345489' was not present in the dictionary.
+2020-10-13 10:55:13,440 [28] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.Consume(String phone, String Text, Boolean isStart, Boolean isNormalChat) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 56
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 246
+2020-10-13 10:58:02,719 [16] ERROR Helpers.LogHelper - Exception Msg: The given key '201066345489' was not present in the dictionary.
+2020-10-13 10:58:02,725 [16] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.Consume(String phone, String Text, Boolean isStart, Boolean isNormalChat) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 56
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 250
+2020-10-13 11:00:11,073 [8] ERROR Helpers.LogHelper - Exception Msg: The given key '201066345489' was not present in the dictionary.
+2020-10-13 11:00:11,080 [8] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.Consume(String phone, String Text, Boolean isStart, Boolean isNormalChat) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 56
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 250
+2020-10-13 12:29:08,908 [21] ERROR Helpers.LogHelper - Exception Msg: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+2020-10-13 12:29:08,914 [21] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.GetChoises(String message) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 133
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 259
+2020-10-13 12:30:03,543 [25] ERROR Helpers.LogHelper - Exception Msg: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+2020-10-13 12:30:03,544 [25] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.GetChoises(String message) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 133
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 259
+2020-10-13 12:49:27,138 [15] ERROR Helpers.LogHelper - Exception Msg: Length cannot be less than zero. (Parameter 'length')
+2020-10-13 12:49:27,144 [15] ERROR Helpers.LogHelper - Exception StackTrace:    at System.String.Substring(Int32 startIndex, Int32 length)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.GetChoises(String message) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 140
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 259
+2020-10-13 12:52:53,316 [12] ERROR Helpers.LogHelper - Exception Msg: Length cannot be less than zero. (Parameter 'length')
+2020-10-13 12:52:53,323 [12] ERROR Helpers.LogHelper - Exception StackTrace:    at System.String.Substring(Int32 startIndex, Int32 length)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.GetChoises(String message) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 140
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 259
+2020-10-13 13:07:14,419 [23] ERROR Helpers.LogHelper - Exception Msg: Length cannot be less than zero. (Parameter 'length')
+2020-10-13 13:07:14,425 [23] ERROR Helpers.LogHelper - Exception StackTrace:    at System.String.Substring(Int32 startIndex, Int32 length)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.GetChoises(String message) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 141
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 259
+2020-10-13 13:10:32,821 [10] ERROR Helpers.LogHelper - Exception Msg: Length cannot be less than zero. (Parameter 'length')
+2020-10-13 13:10:32,828 [10] ERROR Helpers.LogHelper - Exception StackTrace:    at System.String.Substring(Int32 startIndex, Int32 length)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.GetChoises(String message) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 141
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 259
+2020-10-14 11:29:36,302 [14] ERROR Helpers.LogHelper - Exception Msg: Value cannot be null. (Parameter 'key')
+2020-10-14 11:29:36,316 [14] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.TryInsert(TKey key, TValue value, InsertionBehavior behavior)
+   at System.Collections.Generic.Dictionary`2.set_Item(TKey key, TValue value)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(String authToken, String auctionId, String phone, Boolean firstCall, Boolean isEnd) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 75
+2020-10-14 11:29:52,045 [15] ERROR Helpers.LogHelper - Exception Msg: Value cannot be null. (Parameter 'key')
+2020-10-14 11:29:52,045 [15] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.Dictionary`2.TryInsert(TKey key, TValue value, InsertionBehavior behavior)
+   at System.Collections.Generic.Dictionary`2.set_Item(TKey key, TValue value)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(String authToken, String auctionId, String phone, Boolean firstCall, Boolean isEnd) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 75
+2020-10-14 11:50:52,386 [6] ERROR Helpers.LogHelper - Exception Msg: One or more errors occurred. (The API query failed with status code NotFound: Not Found | x-global-transaction-id: 121c8356-a289-4fc1-aab2-5f639c32679a | error: {"code":404,"error":"Invalid Session"}) (The API query failed with status code NotFound: Not Found | x-global-transaction-id: 121c8356-a289-4fc1-aab2-5f639c32679a | error: {"code":404,"error":"Invalid Session"})
+2020-10-14 11:50:52,392 [6] ERROR Helpers.LogHelper - Exception StackTrace:    at IBM.Watson.Assistant.v2.AssistantService.Message(String assistantId, String sessionId, MessageInput input, MessageContext context)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.Consume(String phone, String Text, Boolean isStart, Boolean isNormalChat) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 78
+2020-10-14 11:50:52,394 [6] ERROR Helpers.LogHelper - Exception Msg: The API query failed with status code NotFound: Not Found | x-global-transaction-id: 121c8356-a289-4fc1-aab2-5f639c32679a | error: {"code":404,"error":"Invalid Session"}
+2020-10-14 11:50:52,394 [6] ERROR Helpers.LogHelper - Exception StackTrace:    at IBM.Cloud.SDK.Core.Http.Filters.ErrorFilter.OnResponse(IResponse response, HttpResponseMessage responseMessage)
+   at IBM.Cloud.SDK.Core.Http.Request.GetResponse(Task`1 request)
+   at IBM.Cloud.SDK.Core.Http.Request.AsMessage()
+   at IBM.Cloud.SDK.Core.Http.Request.As[T]()
+2020-10-14 11:52:36,725 [19] ERROR Helpers.LogHelper - Exception Msg: Length cannot be less than zero. (Parameter 'length')
+2020-10-14 11:52:36,726 [19] ERROR Helpers.LogHelper - Exception StackTrace:    at System.String.Substring(Int32 startIndex, Int32 length)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.GetChoises(String message) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 141
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 259
+2020-10-14 11:57:37,326 [23] ERROR Helpers.LogHelper - Exception Msg: Object reference not set to an instance of an object.
+2020-10-14 11:57:37,332 [23] ERROR Helpers.LogHelper - Exception StackTrace:    at EmiratesAuctionChateBot.Helpers.WatsonHelper.GetChoises(String message) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 127
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 259
+2020-10-14 12:00:22,583 [35] ERROR Helpers.LogHelper - Exception Msg: Length cannot be less than zero. (Parameter 'length')
+2020-10-14 12:00:22,583 [35] ERROR Helpers.LogHelper - Exception StackTrace:    at System.String.Substring(Int32 startIndex, Int32 length)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.GetChoises(String message) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 141
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 259
+2020-10-14 13:31:38,639 [17] ERROR Helpers.LogHelper - Exception Msg: One or more errors occurred. (The API query failed with status code NotFound: Not Found | x-global-transaction-id: 5893a603-c4e5-4b65-905f-3e18fc665ea6 | error: {"code":404,"error":"Invalid Session"}) (The API query failed with status code NotFound: Not Found | x-global-transaction-id: 5893a603-c4e5-4b65-905f-3e18fc665ea6 | error: {"code":404,"error":"Invalid Session"})
+2020-10-14 13:31:38,645 [17] ERROR Helpers.LogHelper - Exception StackTrace:    at IBM.Watson.Assistant.v2.AssistantService.Message(String assistantId, String sessionId, MessageInput input, MessageContext context)
+   at EmiratesAuctionChateBot.Helpers.WatsonHelper.Consume(String phone, String Text, Boolean isStart, Boolean isNormalChat) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Helpers\WatsonHelper.cs:line 78
+2020-10-14 13:31:42,125 [17] ERROR Helpers.LogHelper - Exception Msg: The API query failed with status code NotFound: Not Found | x-global-transaction-id: 5893a603-c4e5-4b65-905f-3e18fc665ea6 | error: {"code":404,"error":"Invalid Session"}
+2020-10-14 13:31:42,125 [17] ERROR Helpers.LogHelper - Exception StackTrace:    at IBM.Cloud.SDK.Core.Http.Filters.ErrorFilter.OnResponse(IResponse response, HttpResponseMessage responseMessage)
+   at IBM.Cloud.SDK.Core.Http.Request.GetResponse(Task`1 request)
+   at IBM.Cloud.SDK.Core.Http.Request.AsMessage()
+   at IBM.Cloud.SDK.Core.Http.Request.As[T]()
+2020-10-14 13:31:43,916 [17] ERROR Helpers.LogHelper - Exception Msg: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+2020-10-14 13:31:43,916 [17] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 253
+2020-10-14 13:32:46,107 [13] ERROR Helpers.LogHelper - Exception Msg: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+2020-10-14 13:32:46,114 [13] ERROR Helpers.LogHelper - Exception StackTrace:    at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at EmiratesAuctionChateBot.Controllers.ChatBotController.ChatBot(Object data) in E:\chatBot\EAChatBot\EmiratesAuctionChateBot\EmiratesAuctionChateBot\Controllers\ChatBotController.cs:line 253
