@@ -9,6 +9,6 @@ namespace EmiratesAuctionChateBot.Helpers
     {
         MessageResponse Consume(string phone, string Text = "", bool isStart = false, bool isNormalChat = false);
         string ToEnglishNumber(string input);
-        Dictionary<int, string> GetChoises(string message);
+        Dictionary<long, string> GetChoises(string message);
     }
 }

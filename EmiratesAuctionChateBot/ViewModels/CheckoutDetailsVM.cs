@@ -9,7 +9,7 @@ namespace ViewModels
         public RecoveryPriceVM RecoveryPrice { get; set; }
         public AddressVM AdressDetails { get; set; }
 
-        public int UserPreferredTime { get; set; }
+        public long UserPreferredTime { get; set; }
 
     }
 }

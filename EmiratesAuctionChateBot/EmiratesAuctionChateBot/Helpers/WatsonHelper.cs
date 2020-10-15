@@ -121,18 +121,18 @@ namespace EmiratesAuctionChateBot.Helpers
 
 
 
-        public Dictionary<int, string> GetChoises(string message)
+        public Dictionary<long, string> GetChoises(string message)
         {
-            List<int> choisesNum = new List<int>();
+            List<long> choisesNum = new List<long>();
             int indexOfLast = 0;
             int lastIndex = 0;
-            Dictionary<int, string> choises = new Dictionary<int, string>();
+            Dictionary<long, string> choises = new Dictionary<long, string>();
             int j = 0;
             for (int i = 0; i < message.Length; i++)
             {
                 if (Char.IsDigit(message[i]) && message[i + 1] == '-')
                 {
-                    choisesNum.Add(int.Parse(message[i].ToString()));
+                    choisesNum.Add(long.Parse(message[i].ToString()));
                     int FirstIndex = i + 2;
                     int indexOfNextNumber = message.LastIndexOf((choisesNum[j] + 1).ToString());
 
