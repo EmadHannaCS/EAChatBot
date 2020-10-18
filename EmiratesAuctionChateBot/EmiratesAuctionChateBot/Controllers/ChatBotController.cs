@@ -129,50 +129,53 @@ namespace EmiratesAuctionChateBot.Controllers
                 var cars = UserCars[phone];
                 var carsCount = cars.Count;
 
-                var userHyazaCars = cars.Where(car => car.BidderHyazaOrigin == string.Empty && car.RequireSelectHyaza == 1).ToList();
-                for (int i = 0; i < carsCount; i++)
+                if (!isEnd)
                 {
-                    var car = cars[i];
-                    if (car.BidderHyazaOrigin == string.Empty && car.RequireSelectHyaza == 1)
+                    var userHyazaCars = cars.Where(car => car.BidderHyazaOrigin == string.Empty && car.RequireSelectHyaza == 1).ToList();
+                    for (int i = 0; i < carsCount; i++)
                     {
-
-                        UserCarNum[phone] = i;
-                        message = _watsonHelper.Consume(phone).Output.Generic[0].Text;
-                        message = message.Replace("{CarNum}", car.makeEn + " " + car.modelEn).Replace("{number}", car.AuctionInfo.lot.ToString()).
-                             Replace("{currency}", car.AuctionInfo.currencyEn).Replace("{price}", car.AuctionInfo.currentPrice.ToString());
-
-                        message += Environment.NewLine + "1- Abu Dhabi" + Environment.NewLine + "2- Dubai" + Environment.NewLine + "3- Sharja" + Environment.NewLine + "4- Ras Al Khaimah" +
-                            Environment.NewLine + "5- Fujairah" + Environment.NewLine + "6- Ajman" + Environment.NewLine + "7- Umm Al Quwian";
-
-                        UserCars[phone].Remove(car);
-                        _sessionsManager.UpdateSessionStep(phone);
-
-                        break;
-                    }
-
-
-                }
-                if (userHyazaCars.Count == 0)
-                {
-                    var deliveryCars = cars.Where(car => car.DeliveryStatus != 1 && car.CheckOutInfo.HasSourceLocation == 1 && car.CheckOutInfo.AllowDeliveryRequest == 1).ToList();
-                    if (deliveryCars.Count > 0)
-                    {
-                        for (int i = 0; i < deliveryCars.Count; i++)
+                        var car = cars[i];
+                        if (car.BidderHyazaOrigin == string.Empty && car.RequireSelectHyaza == 1)
                         {
-                            var car = deliveryCars[i];
+
                             UserCarNum[phone] = i;
-                            // message += _watsonHelper.Consume(phone, "1").Output.Generic[0].Text.Replace("{CarNum}", car.makeEn + " " + car.modelEn).Replace("{lot}", car.AuctionInfo.lot.ToString());
+                            message = _watsonHelper.Consume(phone).Output.Generic[0].Text;
+                            message = message.Replace("{CarNum}", car.makeEn + " " + car.modelEn).Replace("{number}", car.AuctionInfo.lot.ToString()).
+                                 Replace("{currency}", car.AuctionInfo.currencyEn).Replace("{price}", car.AuctionInfo.currentPrice.ToString());
+
+                            message += Environment.NewLine + "1- Abu Dhabi" + Environment.NewLine + "2- Dubai" + Environment.NewLine + "3- Sharja" + Environment.NewLine + "4- Ras Al Khaimah" +
+                                Environment.NewLine + "5- Fujairah" + Environment.NewLine + "6- Ajman" + Environment.NewLine + "7- Umm Al Quwian";
 
                             UserCars[phone].Remove(car);
+                            _sessionsManager.UpdateSessionStep(phone);
+
+                            break;
                         }
-                        message += _watsonHelper.Consume(phone, "1").Output.Generic[0].Text;
+
 
                     }
-                    _sessionsManager.UpdateSessionStep(phone, 3);
+                    if (userHyazaCars.Count == 0)
+                    {
+                        var deliveryCars = cars.Where(car => car.DeliveryStatus != 1 && car.CheckOutInfo.HasSourceLocation == 1 && car.CheckOutInfo.AllowDeliveryRequest == 1).ToList();
+                        if (deliveryCars.Count > 0)
+                        {
+                            for (int i = 0; i < deliveryCars.Count; i++)
+                            {
+                                var car = deliveryCars[i];
+                                UserCarNum[phone] = i;
+                                // message += _watsonHelper.Consume(phone, "1").Output.Generic[0].Text.Replace("{CarNum}", car.makeEn + " " + car.modelEn).Replace("{lot}", car.AuctionInfo.lot.ToString());
+
+                                UserCars[phone].Remove(car);
+                            }
+                            message += _watsonHelper.Consume(phone, "1").Output.Generic[0].Text;
+
+                        }
+                        _sessionsManager.UpdateSessionStep(phone, 3);
 
 
+                    }
+                    _webHookHelper.sendTXTMsg(phone, message);
                 }
-                _webHookHelper.sendTXTMsg(phone, message);
 
                 if (isEnd || string.IsNullOrEmpty(message))
                 {
