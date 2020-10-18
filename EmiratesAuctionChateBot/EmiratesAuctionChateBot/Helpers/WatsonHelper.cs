@@ -83,7 +83,7 @@ namespace EmiratesAuctionChateBot.Helpers
             {
                 UserSession[phone] = assistant.CreateSession(isNormalChat ? ArabicAssistantId : AssistantId);
                 _sessionsManager.SetSession(phone, UserSession[phone].Result.SessionId);
-                messageResponse = assistant.Message(isNormalChat ? ArabicAssistantId : AssistantId, UserSession[phone].Result.SessionId, new MessageInput() { Text = Text });
+                messageResponse = assistant.Message(isNormalChat ? ArabicAssistantId : AssistantId, UserSession[phone].Result.SessionId, new MessageInput() { Text = isNormalChat ? "Hi" : "1" });
                 ChatBotController.choices[phone].Clear();
                 LogHelper.LogException(ex);
             }
