@@ -2,6 +2,7 @@ using BL.Managers;
 using DAL.DB;
 using DAL.UnitOfWork;
 using EmiratesAuctionChateBot.Helpers;
+using Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,7 @@ namespace EmiratesAuctionChateBot
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ISessionsManager, SessionsManager>();
             services.AddTransient<IWatsonHelper, WatsonHelper>();
+            services.AddTransient<IWebHookHelper, WebHookHelper>();
             services.AddSwaggerGen();
 
         }
