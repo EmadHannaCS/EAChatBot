@@ -127,7 +127,6 @@ namespace EmiratesAuctionChateBot.Controllers
                 }
                 var cars = UserCars[phone];
                 var carsCount = cars.Count;
-
                 if (!isEnd)
                 {
                     var userHyazaCars = cars.Where(car => car.BidderHyazaOrigin == string.Empty && car.RequireSelectHyaza == 1).ToList();
@@ -137,13 +136,13 @@ namespace EmiratesAuctionChateBot.Controllers
                         if (car.BidderHyazaOrigin == string.Empty && car.RequireSelectHyaza == 1)
                         {
 
-                        UserCarNum[phone] = i;
-                        secondMessage = _watsonHelper.Consume(phone).Output.Generic[0].Text;
-                        secondMessage = secondMessage.Replace("{CarNum}", car.makeEn + " " + car.modelEn).Replace("{number}", car.AuctionInfo.lot.ToString()).
-                             Replace("{currency}", car.AuctionInfo.currencyEn).Replace("{price}", car.AuctionInfo.currentPrice.ToString());
+                            UserCarNum[phone] = i;
+                            secondMessage = _watsonHelper.Consume(phone).Output.Generic[0].Text;
+                            secondMessage = secondMessage.Replace("{CarNum}", car.makeEn + " " + car.modelEn).Replace("{number}", car.AuctionInfo.lot.ToString()).
+                                 Replace("{currency}", car.AuctionInfo.currencyEn).Replace("{price}", car.AuctionInfo.currentPrice.ToString());
 
-                        secondMessage += Environment.NewLine + "1- Abu Dhabi" + Environment.NewLine + "2- Dubai" + Environment.NewLine + "3- Sharja" + Environment.NewLine + "4- Ras Al Khaimah" +
-                            Environment.NewLine + "5- Fujairah" + Environment.NewLine + "6- Ajman" + Environment.NewLine + "7- Umm Al Quwian";
+                            secondMessage += Environment.NewLine + "1- Abu Dhabi" + Environment.NewLine + "2- Dubai" + Environment.NewLine + "3- Sharja" + Environment.NewLine + "4- Ras Al Khaimah" +
+                                Environment.NewLine + "5- Fujairah" + Environment.NewLine + "6- Ajman" + Environment.NewLine + "7- Umm Al Quwian";
 
                             UserCars[phone].Remove(car);
                             _sessionsManager.UpdateSessionStep(phone);
@@ -164,21 +163,25 @@ namespace EmiratesAuctionChateBot.Controllers
                                 UserCarNum[phone] = i;
                                 // message += _watsonHelper.Consume(phone, "1").Output.Generic[0].Text.Replace("{CarNum}", car.makeEn + " " + car.modelEn).Replace("{lot}", car.AuctionInfo.lot.ToString());
 
-                            UserCars[phone].Remove(car);
-                        }
-                        secondMessage += _watsonHelper.Consume(phone, "1").Output.Generic[0].Text;
+                                UserCars[phone].Remove(car);
+                            }
+                            secondMessage += _watsonHelper.Consume(phone, "1").Output.Generic[0].Text;
 
                         }
                         _sessionsManager.UpdateSessionStep(phone, 3);
 
 
+                    }
+
+
                 }
-
-
-
                 if (send && !string.IsNullOrEmpty(secondMessage))
                 {
                     _webHookHelper.sendTXTMsg(phone, firstMessage);
+                }
+
+                if (send && !string.IsNullOrEmpty(secondMessage))
+                {
                     _webHookHelper.sendTXTMsg(phone, secondMessage);
                 }
 
@@ -192,6 +195,7 @@ namespace EmiratesAuctionChateBot.Controllers
                 {
                     UserIsInNormalChat[phone] = false;
                 }
+
 
             }
             catch (Exception ex)
