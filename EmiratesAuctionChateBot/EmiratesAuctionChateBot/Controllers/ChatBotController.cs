@@ -178,11 +178,8 @@ namespace EmiratesAuctionChateBot.Controllers
                 if (send && !string.IsNullOrEmpty(secondMessage))
                 {
                     _webHookHelper.sendTXTMsg(phone, firstMessage);
-                }
-
-                if (send && !string.IsNullOrEmpty(secondMessage))
-                {
                     _webHookHelper.sendTXTMsg(phone, secondMessage);
+
                 }
 
 
