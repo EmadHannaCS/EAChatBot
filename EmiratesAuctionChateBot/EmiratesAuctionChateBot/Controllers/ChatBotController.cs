@@ -83,7 +83,7 @@ namespace EmiratesAuctionChateBot.Controllers
                 UserAuthToken[phone] = authToken;
                 UserAlreadyInStep[phone] = false;
 
-                string APIUrl = $"checkout/cars/getauctiondetails?auctionid={auctionId}&authtoken={authToken}&source = androidphone";
+                string APIUrl = $"checkout/cars/getauctiondetails?auctionid={auctionId}&authtoken={authToken}&source=mweb";
 
                 var result = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, APIUrl);
 
