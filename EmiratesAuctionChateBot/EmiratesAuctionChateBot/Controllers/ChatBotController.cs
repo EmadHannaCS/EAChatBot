@@ -177,9 +177,9 @@ namespace EmiratesAuctionChateBot.Controllers
                 }
                 if (send && !string.IsNullOrEmpty(secondMessage))
                 {
-                    _webHookHelper.sendTXTMsg(phone, firstMessage);
-                    _webHookHelper.sendTXTMsg(phone, secondMessage);
-
+                    //concat the 2 msgs in one
+                    var msg = firstMessage + Environment.NewLine + secondMessage;
+                    _webHookHelper.sendTXTMsg(phone, msg);
                 }
 
 
