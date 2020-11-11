@@ -205,11 +205,10 @@ namespace EmiratesAuctionChateBot.Controllers
 
 
         [HttpPost("ReceiveMessages")]
-        [Consumes("application/x-www-form-urlencoded")]
-        public Task ChatBot([FromForm] object data)
+        //[Consumes("application/x-www-form-urlencoded")]
+        public Task ChatBot(/*[FromForm]*/ WebHookVM data)
         {
-            var webHookMessage = JsonSerializer.Deserialize<WebhookResponse>(this.HttpContext.Request.Form["data"].ToString());
-
+            var webHookMessage = data.results[0];
             try
             {
                 if (!UserAlreadyInStep.ContainsKey(webHookMessage.from))
@@ -234,7 +233,7 @@ namespace EmiratesAuctionChateBot.Controllers
                     {
                         return null;
                     }
-                    webHookMessage.text = _watsonHelper.ToEnglishNumber(webHookMessage.text);
+                    webHookMessage.message.text = _watsonHelper.ToEnglishNumber(webHookMessage.message.text);
                     var userStep = _sessionsManager.GetSession(webHookMessage.from)?.LatestResponseStep;
 
                     isStartChat[webHookMessage.from] = true;
@@ -250,20 +249,20 @@ namespace EmiratesAuctionChateBot.Controllers
                     {
                         if (choices[webHookMessage.from].Count > 1)
                         {
-                            if (Char.IsDigit(webHookMessage.text, 0) && webHookMessage.text != "0")//0 is main menu in watson
+                            if (Char.IsDigit(webHookMessage.message.text, 0) && webHookMessage.message.text != "0")//0 is main menu in watson
                             {
-                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, choices[webHookMessage.from].GetValueOrDefault(int.Parse(webHookMessage.text))?.Trim(), isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
+                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, choices[webHookMessage.from].GetValueOrDefault(int.Parse(webHookMessage.message.text))?.Trim(), isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
                             }
                             else
                             {
-                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text.Trim(), isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
+                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.message.text.Trim(), isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
                             }
 
                         }
                         else
                         {
 
-                            UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text, isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
+                            UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.message.text, isStartChat[webHookMessage.from], UserIsInNormalChat[webHookMessage.from]);
                         }
 
                         string message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
@@ -290,7 +289,7 @@ namespace EmiratesAuctionChateBot.Controllers
 
                                 var car = UserAuctionDetails[webHookMessage.from].Cars[UserCarNum[webHookMessage.from]];
 
-                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text);
+                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.message.text);
 
                                 string message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
                                 if (message.Contains("Your choice doesn't seem valid. Please try again."))
@@ -301,8 +300,8 @@ namespace EmiratesAuctionChateBot.Controllers
                                 {
 
 
-                                    UserSelectedEmirate[webHookMessage.from] = webHookMessage.text;
-                                    message = message.Replace("{number}", webHookMessage.text).Replace("{country}", Emirates.GetValueOrDefault(long.Parse(webHookMessage.text)).Value);
+                                    UserSelectedEmirate[webHookMessage.from] = webHookMessage.message.text;
+                                    message = message.Replace("{number}", webHookMessage.message.text).Replace("{country}", Emirates.GetValueOrDefault(long.Parse(webHookMessage.message.text)).Value);
                                     _webHookHelper.sendTXTMsg(webHookMessage.from, message);
                                     _sessionsManager.UpdateSessionStep(webHookMessage.from);
                                 }
@@ -317,7 +316,7 @@ namespace EmiratesAuctionChateBot.Controllers
 
 
 
-                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text);
+                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.message.text);
                                 var message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
 
                                 if (message.ToLower().Contains("please type"))
@@ -364,14 +363,11 @@ namespace EmiratesAuctionChateBot.Controllers
 
                         case 3:
                             {
-                                if (webHookMessage.text.Contains("https://maps.google.com/maps?q="))
+                                if (webHookMessage.message.type == "LOCATION")
                                 {
-                                    var locationText = WebUtility.UrlDecode(webHookMessage.text);
-                                    var splits = locationText.Split(new string[] { "?q=", "&" }, options: StringSplitOptions.RemoveEmptyEntries);
-                                    var locationLatLong = splits[1];
-                                    var locationSplits = locationLatLong.Split(",");
-                                    var latitude = locationSplits[0];
-                                    var longitude = locationSplits[1];
+
+                                    var latitude = webHookMessage.message.latitude;
+                                    var longitude = webHookMessage.message.longitude;
 
                                     _webHookHelper.sendTXTMsg(webHookMessage.from, "Processing...");
 
@@ -418,7 +414,7 @@ namespace EmiratesAuctionChateBot.Controllers
 
                         case 4:
                             {
-                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text);
+                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.message.text);
                                 var message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
                                 message += Environment.NewLine + "1- 9:00AM - 1:00PM" + Environment.NewLine + "2- 1:00PM - 5:00PM" + Environment.NewLine + "3- 5:00PM - 9:00PM";
                                 _webHookHelper.sendTXTMsg(webHookMessage.from, message);
@@ -428,7 +424,7 @@ namespace EmiratesAuctionChateBot.Controllers
 
                         case 5:
                             {
-                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text);
+                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.message.text);
                                 var message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
                                 if (message.Contains("please choose from choices"))
                                 {
@@ -436,7 +432,7 @@ namespace EmiratesAuctionChateBot.Controllers
                                 }
                                 else
                                 {
-                                    UserAuctionDetails[webHookMessage.from].CheckoutDetails.UserPreferredTime = (long.Parse(webHookMessage.text) - 1);
+                                    UserAuctionDetails[webHookMessage.from].CheckoutDetails.UserPreferredTime = (long.Parse(webHookMessage.message.text) - 1);
                                     _webHookHelper.sendTXTMsg(webHookMessage.from, message);
                                     _sessionsManager.UpdateSessionStep(webHookMessage.from);
                                 }
@@ -448,7 +444,7 @@ namespace EmiratesAuctionChateBot.Controllers
                             {
 
 
-                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.text);
+                                UserWatsonResult[webHookMessage.from] = _watsonHelper.Consume(webHookMessage.from, webHookMessage.message.text);
                                 var message = UserWatsonResult[webHookMessage.from].Output.Generic[0].Text;
                                 _webHookHelper.sendTXTMsg(webHookMessage.from, message);
 
@@ -468,7 +464,7 @@ namespace EmiratesAuctionChateBot.Controllers
                                     var checkoutDetails = UserAuctionDetails[webHookMessage.from].CheckoutDetails;
                                     var priceList = string.Join(",", checkoutDetails.RecoveryPrice?.LotPrices?.Select(c => c.LotNumber + "-" + c.Distance + "-" + c.Price)?.ToList() ?? new List<string>());
 
-                                    string createdeliveryrequestAPIUrl = $"checkout/cars/createdeliveryrequest?CountryId={checkoutDetails.RecoveryPrice.CountryId}&CountryName={checkoutDetails.RecoveryPrice.CountryNameEn}&authtoken={UserAuthToken[webHookMessage.from]}&AreaId={checkoutDetails.AdressDetails.AreaId}&source=androidphone&NearestLandMark=&SpecialNotes={webHookMessage.text}&CityId={checkoutDetails.AdressDetails.CityId}&BuldingNo=&PreferredTime={checkoutDetails.UserPreferredTime}&invoiceId={UserAuctionDetails[webHookMessage.from].SOPId}&StreetAddressEn={checkoutDetails.AdressDetails.StreetAddressEn}&PriceList={priceList}";
+                                    string createdeliveryrequestAPIUrl = $"checkout/cars/createdeliveryrequest?CountryId={checkoutDetails.RecoveryPrice.CountryId}&CountryName={checkoutDetails.RecoveryPrice.CountryNameEn}&authtoken={UserAuthToken[webHookMessage.from]}&AreaId={checkoutDetails.AdressDetails.AreaId}&source=androidphone&NearestLandMark=&SpecialNotes={webHookMessage.message.text}&CityId={checkoutDetails.AdressDetails.CityId}&BuldingNo=&PreferredTime={checkoutDetails.UserPreferredTime}&invoiceId={UserAuctionDetails[webHookMessage.from].SOPId}&StreetAddressEn={checkoutDetails.AdressDetails.StreetAddressEn}&PriceList={priceList}";
                                     var createdeliveryrequest = WebClientHelper.Consume(APIBaseUrl, HttpMethod.Get, createdeliveryrequestAPIUrl);
                                     var createdeliveryrequestResult = JsonSerializer.Deserialize<object>(createdeliveryrequest.Content.ReadAsStringAsync().Result);
 
