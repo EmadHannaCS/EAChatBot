@@ -8,5 +8,6 @@ namespace ViewModels
     {
         public WebHookMessageVM[] results { get; set; }
         public int messageCount { get; set; }
+        public int pendingMessageCount { get; set; }
     }
 }

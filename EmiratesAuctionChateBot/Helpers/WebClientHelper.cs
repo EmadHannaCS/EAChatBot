@@ -11,7 +11,7 @@ namespace Helpers
 {
     public class WebClientHelper
     {
-        public static HttpResponseMessage Consume(string baseurl, HttpMethod method, string relativeUrl, HttpContent content = null,
+        public static async Task<HttpResponseMessage> ConsumeAsync(string baseurl, HttpMethod method, string relativeUrl, HttpContent content = null,
            string jsonObj = null, string lang = "", string basicAuthUser = "", string basicAuthPassword = "")
         {
             using (var client = new HttpClient(new HttpClientHandler
@@ -42,7 +42,7 @@ namespace Helpers
                 var Res = new HttpResponseMessage();
                 try
                 {
-                    Res = client.SendAsync(request).Result;
+                    Res = await client.SendAsync(request);
                 }
                 catch (Exception ex)
                 {

@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Helpers
 {
     public interface IWebHookHelper
     {
-        IRestResponse sendTXTMsg(string phone, string msg);
+        Task<IRestResponse> sendTXTMsgAsync(string phone, string msg, string template = "");
 
     }
 }
